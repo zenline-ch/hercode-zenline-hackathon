@@ -12,16 +12,7 @@ Use the shared scenario of a Swiss outdoor retailer to prove that the system wor
 
 The best submissions are not one-off research reports. They show a repeatable flow where inputs can change and the method still works.
 
-## How This Connects To Scandit
-
-This challenge is the B2B side of the shared outdoor-retail story.
-
-- **Zenline challenge:** help the retailer decide what emerging products, services, assortment gaps, or retail opportunities are worth stocking, testing, or monitoring.
-- **Scandit challenge:** help the shopper find, compare, and buy the right product in-store through scanning, AR, and AI assistance.
-
-Together, the two tracks cover the retail loop: market signals become assortment decisions, and assortment decisions become a better in-store customer experience.
-
-Companion B2C challenge: [`raffaelefarinaro/hercode-scandit-challenge`](https://github.com/raffaelefarinaro/hercode-scandit-challenge).
+This is the **B2B challenge**: help the retailer decide what emerging products, services, assortment gaps, or retail opportunities are worth stocking, testing, or monitoring. There is also a companion **B2C challenge** by Scandit, focused on the in-store shopper experience: [`raffaelefarinaro/hercode-scandit-challenge`](https://github.com/raffaelefarinaro/hercode-scandit-challenge).
 
 ## Challenge Scenario
 
