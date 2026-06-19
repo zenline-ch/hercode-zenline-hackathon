@@ -1,0 +1,23 @@
+{
+  "_comment": "Maps phrases found in competitor-type signal notes to coverage_status (ARCHITECTURE.md §6, Coverage Gap pillar). Checked in order; first match wins.",
+  "keyword_to_status": {
+    "no retail sku": "not_relevant",
+    "no commercial product": "not_relevant",
+    "not stocked": "absent",
+    "not found": "absent",
+    "no listings": "absent",
+    "zero sku": "absent",
+    "online-only": "partially_covered",
+    "limited stock": "partially_covered",
+    "partially": "partially_covered",
+    "in stock": "covered",
+    "widely stocked": "covered"
+  },
+  "status_score": {
+    "absent": 1.0,
+    "partially_covered": 0.5,
+    "covered": 0.1,
+    "unknown": 0.2,
+    "not_relevant": 0.2
+  }
+}

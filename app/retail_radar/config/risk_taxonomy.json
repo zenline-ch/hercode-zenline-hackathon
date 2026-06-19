@@ -1,0 +1,16 @@
+{
+  "_comment": "Risk Factor pillar (ARCHITECTURE.md §6). taxonomy = the flags risk_score() counts against. keyword_triggers maps substrings found in signal notes to a flag, so new risk types can be added by editing this file only.",
+  "taxonomy": ["supply_chain", "single_supplier", "price_volatility", "regulatory", "low_moq_barrier"],
+  "keyword_triggers": {
+    "online-only": "supply_chain",
+    "dtc-only": "single_supplier",
+    "direct-to-consumer only": "single_supplier",
+    "press release": "regulatory",
+    "r&d only": "regulatory",
+    "no retail sku": "regulatory",
+    "high moq": "low_moq_barrier",
+    "minimum order": "low_moq_barrier",
+    "tariff": "price_volatility",
+    "currency": "price_volatility"
+  }
+}

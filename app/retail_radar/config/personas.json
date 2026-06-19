@@ -1,0 +1,18 @@
+{
+  "_comment": "Persona presets (ARCHITECTURE.md §3). min_confidence gates which opportunities a persona is allowed to act on; buy_action is the default action verb when an opportunity clears that gate.",
+  "large_retailer": {
+    "label": "Large Retailer (e.g. Bachli, Transa)",
+    "min_confidence": "high",
+    "buy_action": "commercial_proof_only"
+  },
+  "boutique": {
+    "label": "Boutique / Specialist Shop",
+    "min_confidence": "medium",
+    "buy_action": "small_curated_test"
+  },
+  "individual_dtc": {
+    "label": "Individual / DTC Seller",
+    "min_confidence": "medium",
+    "buy_action": "fast_small_bet"
+  }
+}
