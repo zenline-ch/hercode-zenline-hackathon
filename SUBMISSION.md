@@ -4,11 +4,11 @@ Complete this file in your fork before submitting.
 
 ## Team
 
-- Team name: _TODO -- fill in your team name_
-- Team members: _TODO -- fill in names_
+- Team name: The Fine Tuners
+- Team members: Seung ju Paek, Katerina Vitsaxaki, Angela Scherer, Giulia Zobrist
 - GitHub fork URL: https://github.com/angelaschereraiza/hercode-zenline-hackathon
-- Demo URL, if any: _TODO -- Streamlit Community Cloud URL once deployed, see app/README.md_
-- Video walkthrough URL, if any: _TODO, optional_
+- Demo URL, if any: _not deployed yet -- run locally per "How To Run" below, or deploy via app/README.md_
+- Video walkthrough URL, if any: _none -- optional_
 
 ## Summary
 

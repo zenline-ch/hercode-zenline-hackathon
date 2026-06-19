@@ -55,6 +55,23 @@ def run_pipeline_for_context(context: RetailerContext):
 # ---------------------------------------------------------------------------
 # Sidebar -- always visible once context is set
 # ---------------------------------------------------------------------------
+SCENARIOS = {
+    "Live (current context)": None,
+    "Precomputed: Outdoor -- Large Retailer": "retail_radar/data/scenario_outdoor_large_retailer.json",
+    "Precomputed: Outdoor -- Boutique": "retail_radar/data/scenario_outdoor_boutique.json",
+}
+
+
+def load_scenario(path_str: str):
+    """Reusability-proof shortcut: swap in a precomputed recommendations.json
+    instantly, without re-running the pipeline live (diagram.md §6.1)."""
+    payload = json.loads((Path(__file__).resolve().parent / path_str).read_text())
+    st.session_state.result = {"opportunities": payload["opportunities"], "log": payload["log"], "context": payload["context"]}
+    st.session_state.context = RetailerContext(**payload["context"])
+    st.session_state.chat_history = []
+    st.session_state.selected_opportunity_id = None
+
+
 with st.sidebar:
     st.markdown("### 🧭 Retail Radar")
     if st.session_state.context is not None:
@@ -66,6 +83,14 @@ with st.sidebar:
             goto("dashboard")
         if st.button("⚙️ Edit context", use_container_width=True):
             goto("setup")
+        st.divider()
+        st.markdown("**Reusability demo**")
+        scenario_choice = st.selectbox("Switch instantly (no rerun)", options=list(SCENARIOS.keys()), key="scenario_picker")
+        if scenario_choice != "Live (current context)" and SCENARIOS[scenario_choice]:
+            if st.button("⚡ Load scenario", use_container_width=True):
+                load_scenario(SCENARIOS[scenario_choice])
+                goto("dashboard")
+                st.rerun()
         st.divider()
         log = st.session_state.result["log"]
         st.caption(log["narration"])
