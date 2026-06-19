@@ -54,7 +54,9 @@
         },
         "momentum": {
           "total": 0.625,
-          "slope_proxy": 6.2
+          "slope_proxy": 6.2,
+          "growth": 6.2,
+          "geographic_spread": 2
         },
         "transferability": {
           "total": 0.75,
@@ -62,18 +64,29 @@
           "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
           "urgency": "act_now",
           "via": "heuristic_fallback",
-          "avg_quality": 0.63
+          "avg_quality": 0.63,
+          "outdoor_relevance": 3,
+          "climate_fit": 5,
+          "dach_availability_gap": 5
         },
         "coverage_gap": {
           "total": 1.0,
           "matched_note": "Not stocked at Bachli as of observed_at | also: https://transa.ch",
           "competitors_checked": [
             "Bachli Bergsport"
-          ]
+          ],
+          "availability_gap": 5,
+          "retail_saturation": 1,
+          "brand_availability": 5
         },
         "risk": {
           "total": 1.0,
           "flags_triggered": []
+        },
+        "noise": {
+          "total": 4.1,
+          "social_only_ratio": 0.17,
+          "recency_days_avg": 291
         }
       },
       "explainability": {
@@ -191,7 +204,9 @@
         },
         "momentum": {
           "total": 0.6,
-          "slope_proxy": 6.0
+          "slope_proxy": 6.0,
+          "growth": 6.0,
+          "geographic_spread": 1
         },
         "transferability": {
           "total": 0.75,
@@ -199,18 +214,29 @@
           "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
           "urgency": "act_now",
           "via": "heuristic_fallback",
-          "avg_quality": 0.53
+          "avg_quality": 0.53,
+          "outdoor_relevance": 5,
+          "climate_fit": 3,
+          "dach_availability_gap": 5
         },
         "coverage_gap": {
           "total": 1.0,
           "matched_note": "Not found, niche category",
           "competitors_checked": [
             "Ochsner Sport"
-          ]
+          ],
+          "availability_gap": 5,
+          "retail_saturation": 1,
+          "brand_availability": 2
         },
         "risk": {
           "total": 1.0,
           "flags_triggered": []
+        },
+        "noise": {
+          "total": 3.8,
+          "social_only_ratio": 0.25,
+          "recency_days_avg": 282
         }
       },
       "explainability": {
@@ -307,6 +333,8 @@
         "momentum": {
           "total": 0.0,
           "slope_proxy": 0.0,
+          "growth": 0.0,
+          "geographic_spread": 0,
           "note": "no search-type signal for this opportunity"
         },
         "transferability": {
@@ -315,18 +343,29 @@
           "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
           "urgency": "act_now",
           "via": "heuristic_fallback",
-          "avg_quality": 0.5
+          "avg_quality": 0.5,
+          "outdoor_relevance": 3,
+          "climate_fit": 3,
+          "dach_availability_gap": 5
         },
         "coverage_gap": {
           "total": 1.0,
           "matched_note": "Not stocked at Ochsner Sport as of observed_at",
           "competitors_checked": [
             "Ochsner Sport"
-          ]
+          ],
+          "availability_gap": 5,
+          "retail_saturation": 1,
+          "brand_availability": 5
         },
         "risk": {
           "total": 1.0,
           "flags_triggered": []
+        },
+        "noise": {
+          "total": 2.5,
+          "social_only_ratio": 0.5,
+          "recency_days_avg": 261
         }
       },
       "explainability": {
@@ -420,7 +459,9 @@
         },
         "momentum": {
           "total": 0.78,
-          "slope_proxy": 7.8
+          "slope_proxy": 7.8,
+          "growth": 7.8,
+          "geographic_spread": 1
         },
         "transferability": {
           "total": 0.75,
@@ -428,14 +469,20 @@
           "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
           "urgency": "act_now",
           "via": "heuristic_fallback",
-          "avg_quality": 0.7
+          "avg_quality": 0.7,
+          "outdoor_relevance": 3,
+          "climate_fit": 5,
+          "dach_availability_gap": 3
         },
         "coverage_gap": {
           "total": 0.5,
           "matched_note": "Partially covered, online-only via brand DTC channel",
           "competitors_checked": [
             "Transa"
-          ]
+          ],
+          "availability_gap": 3,
+          "retail_saturation": 3,
+          "brand_availability": 5
         },
         "risk": {
           "total": 0.6,
@@ -443,6 +490,11 @@
             "single_supplier",
             "supply_chain"
           ]
+        },
+        "noise": {
+          "total": 5.0,
+          "social_only_ratio": 0.0,
+          "recency_days_avg": 308
         }
       },
       "explainability": {
@@ -542,7 +594,9 @@
         },
         "momentum": {
           "total": 0.25,
-          "slope_proxy": 2.5
+          "slope_proxy": 2.5,
+          "growth": 2.5,
+          "geographic_spread": 1
         },
         "transferability": {
           "total": 0.25,
@@ -550,20 +604,31 @@
           "reason": "Heuristic fallback: thin or weak evidence base, treat as directional only.",
           "urgency": "watch",
           "via": "heuristic_fallback",
-          "avg_quality": 0.26
+          "avg_quality": 0.26,
+          "outdoor_relevance": 3,
+          "climate_fit": 2,
+          "dach_availability_gap": 2
         },
         "coverage_gap": {
           "total": 0.2,
           "matched_note": "No commercial product exists yet, R&D only, no retail SKU to stock",
           "competitors_checked": [
             "Transa"
-          ]
+          ],
+          "availability_gap": 2,
+          "retail_saturation": 4,
+          "brand_availability": 2
         },
         "risk": {
           "total": 0.8,
           "flags_triggered": [
             "regulatory"
           ]
+        },
+        "noise": {
+          "total": 4.0,
+          "social_only_ratio": 0.2,
+          "recency_days_avg": 196
         }
       },
       "explainability": {

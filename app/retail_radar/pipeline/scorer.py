@@ -9,6 +9,7 @@ never breaks live.
 """
 import json
 import os
+from datetime import date
 from pathlib import Path
 
 from retail_radar.schema import Signal, RetailerContext
@@ -41,32 +42,84 @@ def breadth_score(signals: list[Signal]) -> tuple[float, dict]:
 
 
 def momentum_score(signals: list[Signal]) -> tuple[float, dict]:
+    """Returns (momentum_norm used in composite_score, detail dict). growth and
+    geographic_spread are display-only sub-dimensions -- they enrich the
+    explainability breakdown but do not change momentum_norm itself."""
     search_signals = [s for s in signals if s.source_type == "search"]
     if not search_signals:
-        return 0.0, {"slope_proxy": 0.0, "note": "no search-type signal for this opportunity"}
+        return 0.0, {"slope_proxy": 0.0, "growth": 0.0, "geographic_spread": 0,
+                      "note": "no search-type signal for this opportunity"}
     avg = sum(s.signal_score for s in search_signals) / len(search_signals)
-    slope_proxy = round(avg * 10, 1)  # 0-10 scale, matches data-contract trend.growth
-    return min(1.0, avg), {"slope_proxy": slope_proxy}
+    growth = round(avg * 10, 1)  # 0-10 scale, matches data-contract trend.growth
+    geographic_spread = len({s.market for s in search_signals})  # distinct markets, 0-5+ typical
+    return min(1.0, avg), {"slope_proxy": growth, "growth": growth, "geographic_spread": geographic_spread}
+
+
+def noise_score(signals: list[Signal]) -> dict:
+    """Display-only metric (not part of composite_score): how much of this
+    opportunity's evidence is weak/social-only and how stale it is. Higher
+    noise_score = less noisy (5 = clean, 0 = noisy), to match a 0-5 scale."""
+    if not signals:
+        return {"total": 0, "social_only_ratio": 0.0, "recency_days_avg": None}
+    social_only = sum(1 for s in signals if s.source_type == "social")
+    social_only_ratio = round(social_only / len(signals), 2)
+
+    dates = []
+    for s in signals:
+        try:
+            dates.append(date.fromisoformat(s.observed_at))
+        except (ValueError, TypeError):
+            continue
+    if dates:
+        avg_age_days = (date.today() - min(dates)).days
+    else:
+        avg_age_days = None
+
+    total = round(5 * (1 - social_only_ratio), 1)
+    return {"total": total, "social_only_ratio": social_only_ratio, "recency_days_avg": avg_age_days}
+
+
+_AVAILABILITY_GAP_BY_STATUS = {"absent": 5, "partially_covered": 3, "covered": 1, "unknown": 2, "not_relevant": 2}
 
 
 def coverage_gap_score(signals: list[Signal]) -> tuple[float, str, dict]:
+    """Returns (coverage_gap_norm used in composite_score, coverage_status, detail
+    dict). availability_gap/retail_saturation/brand_availability are display-only
+    sub-dimensions (1-5 scale) -- they don't change coverage_gap_norm itself."""
     competitor_signals = [s for s in signals if s.source_type == "competitor"]
-    if not competitor_signals:
-        return COVERAGE_STATUS_SCORE["unknown"], "unknown", {"note": "no competitor scan for this opportunity"}
+    marketplace_signals = [s for s in signals if s.source_type == "marketplace"]
 
-    status = "unknown"
-    matched_note = ""
-    for s in competitor_signals:
-        note_lc = s.notes.lower()
-        for keyword, mapped_status in COVERAGE_KEYWORD_TO_STATUS.items():
-            if keyword in note_lc:
-                status = mapped_status
-                matched_note = s.notes
+    if not competitor_signals:
+        status = "unknown"
+        matched_note = ""
+    else:
+        status = "unknown"
+        matched_note = ""
+        for s in competitor_signals:
+            note_lc = s.notes.lower()
+            for keyword, mapped_status in COVERAGE_KEYWORD_TO_STATUS.items():
+                if keyword in note_lc:
+                    status = mapped_status
+                    matched_note = s.notes
+                    break
+            if status != "unknown":
                 break
-        if status != "unknown":
-            break
+
     score = COVERAGE_STATUS_SCORE.get(status, COVERAGE_STATUS_SCORE["unknown"])
-    return score, status, {"matched_note": matched_note, "competitors_checked": [s.source for s in competitor_signals]}
+    availability_gap = _AVAILABILITY_GAP_BY_STATUS.get(status, 2)
+    retail_saturation = max(1, 6 - availability_gap)  # inverse: covered=high saturation
+    brand_availability = 5 if any(s.brand for s in marketplace_signals) else 2
+
+    detail = {
+        "matched_note": matched_note,
+        "competitors_checked": [s.source for s in competitor_signals],
+        "availability_gap": availability_gap,
+        "retail_saturation": retail_saturation,
+        "brand_availability": brand_availability,
+    }
+    if not competitor_signals:
+        detail["note"] = "no competitor scan for this opportunity"
+    return score, status, detail
 
 
 def risk_score(signals: list[Signal]) -> tuple[float, list[str]]:
@@ -79,15 +132,38 @@ def risk_score(signals: list[Signal]) -> tuple[float, list[str]]:
     return max(0.0, score), sorted(triggered)
 
 
-def transferability_score(signals: list[Signal], context: RetailerContext, opportunity_name: str) -> tuple[float, dict]:
-    """Returns (normalised 0-1 score, detail dict with raw score/reason/urgency)."""
+def _transferability_subdims(signals: list[Signal], context: RetailerContext, coverage_status: str) -> dict:
+    """Display-only sub-dimensions (1-5 scale), deterministic regardless of LLM/fallback
+    path -- enriches explainability without changing transferability_norm."""
+    text = " ".join(f"{s.signal_name} {s.keyword}" for s in signals).lower()
+    outdoor_relevance = 5 if context.niche.lower() in text or "outdoor" in text else 3
+
+    quality_signals = [s.signal_score for s in signals if s.source_type != "competitor"]
+    avg_quality = sum(quality_signals) / len(quality_signals) if quality_signals else 0.0
+    climate_fit = 5 if avg_quality >= 0.6 else 3 if avg_quality >= 0.35 else 2
+
+    dach_availability_gap = _AVAILABILITY_GAP_BY_STATUS.get(coverage_status, 2)
+
+    return {
+        "outdoor_relevance": outdoor_relevance,
+        "climate_fit": climate_fit,
+        "dach_availability_gap": dach_availability_gap,
+    }
+
+
+def transferability_score(signals: list[Signal], context: RetailerContext, opportunity_name: str, coverage_status: str) -> tuple[float, dict]:
+    """Returns (normalised 0-1 score, detail dict with raw score/reason/urgency plus
+    outdoor_relevance/climate_fit/dach_availability_gap sub-dimensions)."""
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if api_key:
         try:
-            return _transferability_llm(signals, context, opportunity_name, api_key)
+            norm, detail = _transferability_llm(signals, context, opportunity_name, api_key)
         except Exception as exc:  # noqa: BLE001 -- never let an LLM hiccup break the score
-            return _transferability_fallback(signals, context, opportunity_name, error=str(exc))
-    return _transferability_fallback(signals, context, opportunity_name)
+            norm, detail = _transferability_fallback(signals, context, opportunity_name, error=str(exc))
+    else:
+        norm, detail = _transferability_fallback(signals, context, opportunity_name)
+    detail.update(_transferability_subdims(signals, context, coverage_status))
+    return norm, detail
 
 
 def _transferability_llm(signals, context: RetailerContext, opportunity_name: str, api_key: str) -> tuple[float, dict]:
@@ -156,9 +232,10 @@ def score_opportunity(signals: list[Signal], context: RetailerContext, opportuni
 
     b_norm, b_detail = breadth_score(signals)
     m_norm, m_detail = momentum_score(signals)
-    t_norm, t_detail = transferability_score(signals, context, opportunity_name)
     c_norm, coverage_status, c_detail = coverage_gap_score(signals)
+    t_norm, t_detail = transferability_score(signals, context, opportunity_name, coverage_status)
     r_norm, risk_flags = risk_score(signals)
+    noise_detail = noise_score(signals)  # display-only, not part of composite_score
 
     composite = (
         weights["breadth"] * b_norm
@@ -184,5 +261,6 @@ def score_opportunity(signals: list[Signal], context: RetailerContext, opportuni
             "transferability": {"total": round(t_norm, 3), **t_detail},
             "coverage_gap": {"total": round(c_norm, 3), **c_detail},
             "risk": {"total": round(r_norm, 3), "flags_triggered": risk_flags},
+            "noise": noise_detail,
         },
     }

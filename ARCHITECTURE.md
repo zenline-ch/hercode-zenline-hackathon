@@ -113,6 +113,14 @@ When two rows do collapse (same keyword, brand, market, different source), keep 
 
 **Decision:** deterministic computation wherever data supports it; an LLM only where genuine judgment is required. See [`docs/adr/0001-hybrid-scoring.md`](docs/adr/0001-hybrid-scoring.md).
 
+**Named sub-dimensions (display-only, don't affect `composite_score`):** each pillar below also
+carries explainability sub-fields, computed in `app/retail_radar/pipeline/scorer.py` -- Momentum
+exposes `growth` + `geographic_spread`; Transferability exposes `outdoor_relevance` + `climate_fit`
++ `dach_availability_gap`; Coverage Gap exposes `availability_gap` + `retail_saturation` +
+`brand_availability`; and a separate `noise` metric (social-only ratio + evidence recency, 0-5
+scale, higher = cleaner) sits alongside the five pillars for transparency without being weighted
+into the score. These enrich the JSON contract in §10 without changing the formula below.
+
 `composite_score` (0–1) is a transparent, traceable weighted average of five pillars. Every point on the final number can be justified on one slide — this is what "transparent scoring" in the evaluation rubric rewards, instead of a black-box LLM score.
 
 | Pillar | Range | Computed by | What it captures |

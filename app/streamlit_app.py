@@ -205,7 +205,11 @@ def render_opportunity_card(o: dict, expand: bool):
 
         st.markdown("**Score breakdown**")
         scores = o["scores"]
-        st.bar_chart({k: v["total"] for k, v in scores.items()})
+        st.bar_chart({k: v["total"] for k, v in scores.items() if k != "noise"})  # noise is on a 0-5 scale, others are 0-1
+        noise = scores.get("noise", {})
+        if noise:
+            st.caption(f"Noise score (0-5, higher = cleaner): {noise['total']} "
+                       f"(social-only ratio {noise['social_only_ratio']}, oldest evidence {noise['recency_days_avg']}d ago)")
 
         if o["risk_flags"]:
             st.warning("Risk flags: " + ", ".join(o["risk_flags"]))
