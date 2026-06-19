@@ -1,0 +1,653 @@
+{
+  "context": {
+    "target_market": "CH",
+    "comparison_markets": [
+      "US",
+      "Nordics",
+      "Japan",
+      "Korea",
+      "UK"
+    ],
+    "niche": "outdoor",
+    "persona": "large_retailer",
+    "competitor_urls": [
+      "baechli-bergsport.ch",
+      "transa.ch"
+    ],
+    "scoring_weights": {
+      "breadth": 0.2,
+      "momentum": 0.2,
+      "transferability": 0.2,
+      "coverage_gap": 0.2,
+      "risk": 0.2
+    }
+  },
+  "log": {
+    "ingested": 24,
+    "cleaned": 24,
+    "deduped": 23,
+    "opportunities": 5,
+    "narration": "Ingested 24 raw signals -> cleaned to 24 -> deduped to 23 -> clustered into 5 opportunities."
+  },
+  "opportunities": [
+    {
+      "id": "gravel-running",
+      "name": "Gravel Running Shoes",
+      "trend_stage": "emerging",
+      "urgency": "act_now",
+      "buy_recommendation": "Test order \u00b7 small stock \u00b7 monitor closely",
+      "persona_buy_action": "commercial_proof_only",
+      "composite_score": 0.761,
+      "confidence": "high",
+      "coverage_status": "absent",
+      "scores": {
+        "breadth": {
+          "total": 0.429,
+          "sources_used": [
+            "Amazon Bestsellers",
+            "Bachli Bergsport",
+            "Gear Media / Newspaper",
+            "Google Trends",
+            "Reddit"
+          ],
+          "count": 5
+        },
+        "momentum": {
+          "total": 0.625,
+          "slope_proxy": 6.2
+        },
+        "transferability": {
+          "total": 0.75,
+          "raw_score": 4,
+          "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+          "urgency": "act_now",
+          "via": "heuristic_fallback",
+          "avg_quality": 0.63
+        },
+        "coverage_gap": {
+          "total": 1.0,
+          "matched_note": "Not stocked at Bachli as of observed_at | also: https://transa.ch",
+          "competitors_checked": [
+            "Bachli Bergsport"
+          ]
+        },
+        "risk": {
+          "total": 1.0,
+          "flags_triggered": []
+        }
+      },
+      "explainability": {
+        "why_trending": "Momentum proxy 6.2/10 across 5 independent source type(s): Amazon Bestsellers, Bachli Bergsport, Gear Media / Newspaper, Google Trends, Reddit.",
+        "why_fits_switzerland": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+        "why_opportunity_now": "coverage_status=absent -- Not stocked at Bachli as of observed_at | also: https://transa.ch"
+      },
+      "lead_lag": {
+        "lead_market": "US",
+        "lead_date": "2025-09-01",
+        "target_market": "CH",
+        "lag_days": 212,
+        "note": "US showed momentum 212 days before CH."
+      },
+      "monitor_triggers": [
+        "CH momentum declines 3 months straight",
+        "Competitor assortment now covers this category -- gap closed"
+      ],
+      "reversal_signals": [
+        "Initial sell-through < 20% after 4 weeks"
+      ],
+      "expected_window": "12-24 month first-mover advantage window",
+      "risk_flags": [],
+      "evidence_urls": [
+        "https://amazon.com/best-sellers-sports-outdoors",
+        "https://baechli-bergsport.ch",
+        "https://gearjunkie.com/example-prodigio-2",
+        "https://reddit.com/r/trailrunning/comments/example",
+        "https://trends.google.com/trends/explore?q=gravel+running&geo=CH",
+        "https://trends.google.com/trends/explore?q=gravel+running&geo=US"
+      ],
+      "signals": [
+        {
+          "source": "Google Trends",
+          "source_type": "search",
+          "market": "US",
+          "keyword": "gravel running shoes",
+          "signal_score": 0.85,
+          "url": "https://trends.google.com/trends/explore?q=gravel+running&geo=US",
+          "observed_at": "2025-09-01",
+          "notes": "90-day rising trend, US"
+        },
+        {
+          "source": "Gear Media / Newspaper",
+          "source_type": "web",
+          "market": "US",
+          "keyword": "gravel running shoe review",
+          "signal_score": 0.7,
+          "url": "https://gearjunkie.com/example-prodigio-2",
+          "observed_at": "2025-11-03",
+          "notes": "Named SKU, priced, reviewed, A-TPU foam confirmed spec"
+        },
+        {
+          "source": "Amazon Bestsellers",
+          "source_type": "marketplace",
+          "market": "US",
+          "keyword": "gravel running shoe",
+          "signal_score": 0.65,
+          "url": "https://amazon.com/best-sellers-sports-outdoors",
+          "observed_at": "2025-12-01",
+          "notes": "Bestseller rank #8 in category"
+        },
+        {
+          "source": "Reddit",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "gravel running",
+          "signal_score": 0.55,
+          "url": "https://reddit.com/r/trailrunning/comments/example",
+          "observed_at": "2025-10-12",
+          "notes": "Community buzz"
+        },
+        {
+          "source": "Google Trends",
+          "source_type": "search",
+          "market": "CH",
+          "keyword": "gravel running schuhe",
+          "signal_score": 0.4,
+          "url": "https://trends.google.com/trends/explore?q=gravel+running&geo=CH",
+          "observed_at": "2026-04-01",
+          "notes": "Rising only since 2026 Q1, CH"
+        },
+        {
+          "source": "Bachli Bergsport",
+          "source_type": "competitor",
+          "market": "CH",
+          "keyword": "gravel running shoes",
+          "signal_score": 0.0,
+          "url": "https://baechli-bergsport.ch",
+          "observed_at": "2026-06-01",
+          "notes": "Not stocked at Bachli as of observed_at | also: https://transa.ch"
+        }
+      ]
+    },
+    {
+      "id": "ultralight-bikepacking",
+      "name": "Ultralight / Bikepacking Crossover",
+      "trend_stage": "emerging",
+      "urgency": "act_now",
+      "buy_recommendation": "Test order \u00b7 small stock \u00b7 monitor closely",
+      "persona_buy_action": "commercial_proof_only",
+      "composite_score": 0.745,
+      "confidence": "high",
+      "coverage_status": "absent",
+      "scores": {
+        "breadth": {
+          "total": 0.373,
+          "sources_used": [
+            "BFS (Swiss Federal Statistical Office)",
+            "Google Trends",
+            "Ochsner Sport",
+            "Reddit"
+          ],
+          "count": 4
+        },
+        "momentum": {
+          "total": 0.6,
+          "slope_proxy": 6.0
+        },
+        "transferability": {
+          "total": 0.75,
+          "raw_score": 4,
+          "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+          "urgency": "act_now",
+          "via": "heuristic_fallback",
+          "avg_quality": 0.53
+        },
+        "coverage_gap": {
+          "total": 1.0,
+          "matched_note": "Not found, niche category",
+          "competitors_checked": [
+            "Ochsner Sport"
+          ]
+        },
+        "risk": {
+          "total": 1.0,
+          "flags_triggered": []
+        }
+      },
+      "explainability": {
+        "why_trending": "Momentum proxy 6.0/10 across 4 independent source type(s): BFS (Swiss Federal Statistical Office), Google Trends, Ochsner Sport, Reddit.",
+        "why_fits_switzerland": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+        "why_opportunity_now": "coverage_status=absent -- Not found, niche category"
+      },
+      "lead_lag": {
+        "lead_market": "US",
+        "lead_date": "2025-10-22",
+        "target_market": "CH",
+        "lag_days": null,
+        "note": "US is the earliest-observed market; CH not yet confirmed in this dataset."
+      },
+      "monitor_triggers": [
+        "CH momentum declines 3 months straight",
+        "Competitor assortment now covers this category -- gap closed"
+      ],
+      "reversal_signals": [
+        "Initial sell-through < 20% after 4 weeks"
+      ],
+      "expected_window": "12-24 month first-mover advantage window",
+      "risk_flags": [],
+      "evidence_urls": [
+        "https://ochsnersport.ch",
+        "https://reddit.com/r/bikepacking/comments/example",
+        "https://trends.google.com/trends/explore?q=ultralight+tent&geo=US",
+        "https://www.bfs.admin.ch/example"
+      ],
+      "signals": [
+        {
+          "source": "Google Trends",
+          "source_type": "search",
+          "market": "US",
+          "keyword": "ultralight bikepacking tent",
+          "signal_score": 0.6,
+          "url": "https://trends.google.com/trends/explore?q=ultralight+tent&geo=US",
+          "observed_at": "2025-10-22",
+          "notes": "Moderate growth, niche volume"
+        },
+        {
+          "source": "Reddit",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "ultralight bikepacking gear",
+          "signal_score": 0.5,
+          "url": "https://reddit.com/r/bikepacking/comments/example",
+          "observed_at": "2025-09-10",
+          "notes": "Niche but recurring community interest"
+        },
+        {
+          "source": "BFS (Swiss Federal Statistical Office)",
+          "source_type": "government",
+          "market": "CH",
+          "keyword": "bikepacking tourism",
+          "signal_score": 0.5,
+          "url": "https://www.bfs.admin.ch/example",
+          "observed_at": "2026-01-15",
+          "notes": "Official stats show growth in self-supported multi-day cycling tourism"
+        },
+        {
+          "source": "Ochsner Sport",
+          "source_type": "competitor",
+          "market": "CH",
+          "keyword": "ultralight bikepacking",
+          "signal_score": 0.0,
+          "url": "https://ochsnersport.ch",
+          "observed_at": "2026-06-01",
+          "notes": "Not found, niche category"
+        }
+      ]
+    },
+    {
+      "id": "bio-dyneema",
+      "name": "Bio-Dyneema / A-TPU Foams",
+      "trend_stage": "growing",
+      "urgency": "act_now",
+      "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
+      "persona_buy_action": "commercial_proof_only",
+      "composite_score": 0.608,
+      "confidence": "medium",
+      "coverage_status": "partially_covered",
+      "scores": {
+        "breadth": {
+          "total": 0.41,
+          "sources_used": [
+            "Galaxus / Digitec",
+            "Gear Media / Newspaper",
+            "Google Trends",
+            "Transa"
+          ],
+          "count": 4
+        },
+        "momentum": {
+          "total": 0.78,
+          "slope_proxy": 7.8
+        },
+        "transferability": {
+          "total": 0.75,
+          "raw_score": 4,
+          "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+          "urgency": "act_now",
+          "via": "heuristic_fallback",
+          "avg_quality": 0.7
+        },
+        "coverage_gap": {
+          "total": 0.5,
+          "matched_note": "Partially covered, online-only via brand DTC channel",
+          "competitors_checked": [
+            "Transa"
+          ]
+        },
+        "risk": {
+          "total": 0.6,
+          "flags_triggered": [
+            "single_supplier",
+            "supply_chain"
+          ]
+        }
+      },
+      "explainability": {
+        "why_trending": "Momentum proxy 7.8/10 across 4 independent source type(s): Galaxus / Digitec, Gear Media / Newspaper, Google Trends, Transa.",
+        "why_fits_switzerland": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+        "why_opportunity_now": "coverage_status=partially_covered -- Partially covered, online-only via brand DTC channel"
+      },
+      "lead_lag": {
+        "lead_market": "US",
+        "lead_date": "2025-08-15",
+        "target_market": "CH",
+        "lag_days": null,
+        "note": "US is the earliest-observed market; CH not yet confirmed in this dataset."
+      },
+      "monitor_triggers": [
+        "CH momentum declines 3 months straight",
+        "Competitor assortment now covers this category -- gap closed"
+      ],
+      "reversal_signals": [
+        "Initial sell-through < 20% after 4 weeks"
+      ],
+      "expected_window": "6-12 month window to build out assortment",
+      "risk_flags": [
+        "single_supplier",
+        "supply_chain"
+      ],
+      "evidence_urls": [
+        "https://galaxus.ch/example",
+        "https://outdoor-magazin.de/example",
+        "https://transa.ch",
+        "https://trends.google.com/trends/explore?q=bio+dyneema&geo=US"
+      ],
+      "signals": [
+        {
+          "source": "Google Trends",
+          "source_type": "search",
+          "market": "US",
+          "keyword": "bio dyneema fabric",
+          "signal_score": 0.78,
+          "url": "https://trends.google.com/trends/explore?q=bio+dyneema&geo=US",
+          "observed_at": "2025-08-15",
+          "notes": "Steady rise, EU regulatory tailwind on bio-based materials"
+        },
+        {
+          "source": "Gear Media / Newspaper",
+          "source_type": "web",
+          "market": "Nordics",
+          "keyword": "bio dyneema material story",
+          "signal_score": 0.72,
+          "url": "https://outdoor-magazin.de/example",
+          "observed_at": "2025-09-20",
+          "notes": "Material story confirmed, DTC-only distribution"
+        },
+        {
+          "source": "Galaxus / Digitec",
+          "source_type": "marketplace",
+          "market": "CH",
+          "keyword": "norda 005",
+          "signal_score": 0.6,
+          "url": "https://galaxus.ch/example",
+          "observed_at": "2026-02-10",
+          "notes": "Online-only, DTC-only distribution model, single supplier"
+        },
+        {
+          "source": "Transa",
+          "source_type": "competitor",
+          "market": "CH",
+          "keyword": "bio dyneema",
+          "signal_score": 0.3,
+          "url": "https://transa.ch",
+          "observed_at": "2026-06-01",
+          "notes": "Partially covered, online-only via brand DTC channel"
+        }
+      ]
+    },
+    {
+      "id": "run-culture-brands",
+      "name": "Run-Culture Brands (Satisfy / Norda / Ciele)",
+      "trend_stage": "emerging",
+      "urgency": "act_now",
+      "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
+      "persona_buy_action": "commercial_proof_only",
+      "composite_score": 0.607,
+      "confidence": "medium",
+      "coverage_status": "absent",
+      "scores": {
+        "breadth": {
+          "total": 0.286,
+          "sources_used": [
+            "Galaxus / Digitec",
+            "Ochsner Sport",
+            "Pinterest",
+            "Reddit"
+          ],
+          "count": 4
+        },
+        "momentum": {
+          "total": 0.0,
+          "slope_proxy": 0.0,
+          "note": "no search-type signal for this opportunity"
+        },
+        "transferability": {
+          "total": 0.75,
+          "raw_score": 4,
+          "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+          "urgency": "act_now",
+          "via": "heuristic_fallback",
+          "avg_quality": 0.5
+        },
+        "coverage_gap": {
+          "total": 1.0,
+          "matched_note": "Not stocked at Ochsner Sport as of observed_at",
+          "competitors_checked": [
+            "Ochsner Sport"
+          ]
+        },
+        "risk": {
+          "total": 1.0,
+          "flags_triggered": []
+        }
+      },
+      "explainability": {
+        "why_trending": "Momentum proxy 0.0/10 across 4 independent source type(s): Galaxus / Digitec, Ochsner Sport, Pinterest, Reddit.",
+        "why_fits_switzerland": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+        "why_opportunity_now": "coverage_status=absent -- Not stocked at Ochsner Sport as of observed_at"
+      },
+      "lead_lag": {
+        "lead_market": null,
+        "lag_days": null,
+        "note": "No search-type signals with a usable date."
+      },
+      "monitor_triggers": [
+        "CH momentum declines 3 months straight",
+        "Competitor assortment now covers this category -- gap closed"
+      ],
+      "reversal_signals": [
+        "Initial sell-through < 20% after 4 weeks"
+      ],
+      "expected_window": "12-24 month first-mover advantage window",
+      "risk_flags": [],
+      "evidence_urls": [
+        "https://galaxus.ch/example-ciele",
+        "https://ochsnersport.ch",
+        "https://pinterest.com/example",
+        "https://reddit.com/r/running/comments/example"
+      ],
+      "signals": [
+        {
+          "source": "Galaxus / Digitec",
+          "source_type": "marketplace",
+          "market": "CH",
+          "keyword": "ciele cap",
+          "signal_score": 0.55,
+          "url": "https://galaxus.ch/example-ciele",
+          "observed_at": "2026-03-05",
+          "notes": "Very limited stock, low MOQ for retailers"
+        },
+        {
+          "source": "Reddit",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "ciele hat",
+          "signal_score": 0.5,
+          "url": "https://reddit.com/r/running/comments/example",
+          "observed_at": "2025-11-15",
+          "notes": "Recurring brand mentions, low MOQ entry point"
+        },
+        {
+          "source": "Pinterest",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "satisfy running aesthetic",
+          "signal_score": 0.45,
+          "url": "https://pinterest.com/example",
+          "observed_at": "2025-10-01",
+          "notes": "Aesthetic/lifestyle signal only"
+        },
+        {
+          "source": "Ochsner Sport",
+          "source_type": "competitor",
+          "market": "CH",
+          "keyword": "satisfy norda ciele",
+          "signal_score": 0.0,
+          "url": "https://ochsnersport.ch",
+          "observed_at": "2026-06-01",
+          "notes": "Not stocked at Ochsner Sport as of observed_at"
+        }
+      ]
+    },
+    {
+      "id": "mycelium-biosynthetics",
+      "name": "Mycelium / Bio-Synthetic Membranes",
+      "trend_stage": "emerging",
+      "urgency": "watch",
+      "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
+      "persona_buy_action": "commercial_proof_only",
+      "composite_score": 0.389,
+      "confidence": "low",
+      "coverage_status": "not_relevant",
+      "scores": {
+        "breadth": {
+          "total": 0.447,
+          "sources_used": [
+            "Galaxus / Digitec",
+            "Gear Media / Newspaper",
+            "Google Trends",
+            "Reddit",
+            "Transa"
+          ],
+          "count": 5
+        },
+        "momentum": {
+          "total": 0.25,
+          "slope_proxy": 2.5
+        },
+        "transferability": {
+          "total": 0.25,
+          "raw_score": 2,
+          "reason": "Heuristic fallback: thin or weak evidence base, treat as directional only.",
+          "urgency": "watch",
+          "via": "heuristic_fallback",
+          "avg_quality": 0.26
+        },
+        "coverage_gap": {
+          "total": 0.2,
+          "matched_note": "No commercial product exists yet, R&D only, no retail SKU to stock",
+          "competitors_checked": [
+            "Transa"
+          ]
+        },
+        "risk": {
+          "total": 0.8,
+          "flags_triggered": [
+            "regulatory"
+          ]
+        }
+      },
+      "explainability": {
+        "why_trending": "Momentum proxy 2.5/10 across 5 independent source type(s): Galaxus / Digitec, Gear Media / Newspaper, Google Trends, Reddit, Transa.",
+        "why_fits_switzerland": "Heuristic fallback: thin or weak evidence base, treat as directional only.",
+        "why_opportunity_now": "coverage_status=not_relevant -- No commercial product exists yet, R&D only, no retail SKU to stock"
+      },
+      "lead_lag": {
+        "lead_market": "US",
+        "lead_date": "2025-12-10",
+        "target_market": "CH",
+        "lag_days": null,
+        "note": "US is the earliest-observed market; CH not yet confirmed in this dataset."
+      },
+      "monitor_triggers": [
+        "CH momentum declines 3 months straight",
+        "Competitor assortment now covers this category -- gap closed"
+      ],
+      "reversal_signals": [
+        "Initial sell-through < 20% after 4 weeks"
+      ],
+      "expected_window": "12-24 month first-mover advantage window",
+      "risk_flags": [
+        "regulatory"
+      ],
+      "evidence_urls": [
+        "https://example-trade-press.com/mycelium",
+        "https://galaxus.ch",
+        "https://reddit.com/r/ultralight/comments/example",
+        "https://transa.ch",
+        "https://trends.google.com/trends/explore?q=mycelium+leather&geo=US"
+      ],
+      "signals": [
+        {
+          "source": "Gear Media / Newspaper",
+          "source_type": "web",
+          "market": "US",
+          "keyword": "mycelium textile",
+          "signal_score": 0.5,
+          "url": "https://example-trade-press.com/mycelium",
+          "observed_at": "2025-12-05",
+          "notes": "Press release, R&D only, no retail SKU exists yet"
+        },
+        {
+          "source": "Reddit",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "mycelium gear",
+          "signal_score": 0.3,
+          "url": "https://reddit.com/r/ultralight/comments/example",
+          "observed_at": "2026-01-02",
+          "notes": "Speculative discussion, no products referenced"
+        },
+        {
+          "source": "Google Trends",
+          "source_type": "search",
+          "market": "US",
+          "keyword": "mycelium leather",
+          "signal_score": 0.25,
+          "url": "https://trends.google.com/trends/explore?q=mycelium+leather&geo=US",
+          "observed_at": "2025-12-10",
+          "notes": "Low absolute volume"
+        },
+        {
+          "source": "Galaxus / Digitec",
+          "source_type": "marketplace",
+          "market": "CH",
+          "keyword": "mycelium textile",
+          "signal_score": 0.0,
+          "url": "https://galaxus.ch",
+          "observed_at": "2026-06-01",
+          "notes": "Zero SKU found, no retail SKU exists yet"
+        },
+        {
+          "source": "Transa",
+          "source_type": "competitor",
+          "market": "CH",
+          "keyword": "mycelium textile",
+          "signal_score": 0.0,
+          "url": "https://transa.ch",
+          "observed_at": "2026-06-01",
+          "notes": "No commercial product exists yet, R&D only, no retail SKU to stock"
+        }
+      ]
+    }
+  ]
+}
