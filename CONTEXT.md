@@ -3,7 +3,7 @@
 ## Glossary
 
 **RetailerContext**
-The structured configuration object produced by the Q&A entrypoint. Captures: target market, comparison markets, niche/category, demographic filters (gender, age range), competitor URLs, and scoring weights. All downstream modules receive a `RetailerContext` — nothing is hardcoded to Switzerland or outdoor retail.
+The structured configuration object produced by the Q&A entrypoint. Captures: target market, comparison markets, niche/category, demographic filters (gender, age range), competitor URLs, risk factors, and score weights. All downstream modules receive a `RetailerContext` — nothing is hardcoded to Switzerland or outdoor retail.
 
 **Comparison Market**
 A market the user identifies as a credible signal source for the target market. Example: Sweden and Canada for a Swiss outdoor retailer. Signals are scraped *from* comparison markets. Transferability scoring reasons over the specific pair: comparison market → target market.
@@ -12,31 +12,49 @@ A market the user identifies as a credible signal source for the target market. 
 The market the retailer operates in. Switzerland for the demo scenario. All transferability judgments are made relative to the target market.
 
 **Signal**
-A single piece of evidence from one source about one emerging opportunity. Has a source type, a market, a keyword or phrase, and a URL. Defined by the fields in `docs/data-contract.md`.
+A single piece of evidence from one source about one emerging opportunity. Has a source type, a market, a keyword or phrase, a score (0–10), and a URL. A signal is only emitted if it passes its source-specific detection threshold. Defined by the fields in `docs/data-contract.md`.
+
+**Detection Rule**
+The threshold applied per source type to decide whether a raw data point becomes a Signal. Each rule is explicit: a minimum score or count that must be exceeded. Three rules are active: Search (Google Trends slope × 10 ≥ 2.0), Marketplace (Amazon title matches ≥ 1), Curated (always emitted). Rules are constants at the top of `scraper.py`.
 
 **Source Type**
-The category of a signal's origin: `search`, `social`, `marketplace`, `web`, `manual`. Used as the unit of Signal Breadth counting.
+The category of a signal's origin: `search`, `marketplace`, `manual`. Used as the unit of Signal Breadth counting. `search` = Google Trends. `marketplace` = Amazon bestsellers. `manual` = expert-curated.
 
 **Opportunity**
 A candidate product, material, brand, or feature that the scoring pipeline has surfaced and ranked. An opportunity is backed by one or more signals across one or more source types.
 
 **Signal Breadth**
-Count of distinct source types that independently surface the same opportunity. Scale 0–5. Higher = more independent confirmation.
+Count of distinct source types that independently surface the same opportunity. Higher = more independent confirmation. Preserved during Deduplication so all contributing source types are counted.
 
-**Momentum**
-Rate of growth of an opportunity's keyword over the last 90 days, measured via Google Trends for the comparison market(s). Normalized 0–10. Slope computed with `numpy.polyfit`.
+**Trend Score**
+Pillar score with a single deterministic sub-dimension: Growth. Normalized 0–1.
 
-**Transferability**
-LLM-assessed likelihood that an opportunity observed in a comparison market will succeed in the target market. Scored 1–5 with a one-sentence rationale and an urgency flag (`act_now` or `watch`). The LLM receives the signal, the source market, the target market, and relevant RetailerContext fields as structured input.
+**Growth**
+Rate of increase of an opportunity's keyword over the last 90 days, measured via Google Trends for the comparison market(s). Normalized 0–10. Slope computed with `numpy.polyfit`. The only sub-dimension of Trend Score. For non-search signals, growth is estimated as 70% of the best_signal_score.
+
+**Trend Stage**
+Classification derived from Growth score: `growing` (≥7.5), `emerging` (≥5.0), `mainstream` (≥2.5), `declining` (<2.5). Drives the Buy Recommendation shown in the output.
+
+**Transferability Score**
+Pillar score derived from two LLM-assessed sub-dimensions: Outdoor Relevance and DACH Availability Gap. The LLM receives the opportunity, the specific comparison market → target market pair, and the RetailerContext. Each sub-dimension is scored 1–5 with a one-sentence justification. Pillar total = average of sub-dimensions, normalized to 0–1.
+
+**Opportunity Score**
+Pillar score derived from three LLM-assessed sub-dimensions: Availability Gap, Retail Saturation, and Brand Availability. Grounded in RetailerContext competitor URLs and niche. Each 1–5, normalized to 0–1.
+
+**Red-Flag Scoring**
+Fourth scoring pillar. LLM-assessed sub-dimensions: Supply Chain Risk, Regulatory Risk, Brand Concentration. Each scored 1–5 where 5 = highest risk. The pillar total is **inverted** in the Composite Score (`1 - total`) — high risk lowers the composite.
 
 **Composite Score**
-Weighted average of normalized Breadth (÷5), Momentum (÷10), and Transferability ((score−1)÷4). Default weight is equal across all three. Weights are configurable via UI sliders.
+Weighted average of four normalized pillar totals: `(w_trend × Trend + w_transfer × Transferability + w_opp × Opportunity + w_rf × (1 − Red-Flag)) / (w_trend + w_transfer + w_opp + w_rf)`. Default weights are equal (1.0 each). Configurable via UI sliders.
 
 **Urgency**
-Binary classification of each opportunity: `act_now` or `watch`. Set by the LLM during transferability scoring. Used to split the output into two sections.
+Binary classification of each opportunity: `act_now` or `watch`. Set by the LLM as part of the single scoring call. `act_now` = window is open now (growing trend + low saturation + accessible supply). Used to split the output into two sections.
 
 **Relevance Filter**
-Pre-scoring step that removes signals not matching the RetailerContext niche and not originating from a target or comparison market.
+Pre-scoring step that removes signals not matching the RetailerContext niche keywords and not originating from a known comparison or target market.
 
 **Deduplication**
 Pre-scoring step that collapses signals referring to the same opportunity across multiple source types into a single opportunity record, preserving all contributing source types for Breadth counting.
+
+**Explainability**
+Four one-sentence judgments per opportunity, generated by the LLM in the same call as the scoring: `why_trending`, `why_fits_switzerland`, `why_opportunity_now`, `why_to_be_cautious`. Shown directly in the UI — no post-processing layer.
