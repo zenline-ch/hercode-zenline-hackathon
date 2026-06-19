@@ -16,7 +16,7 @@ One-sentence version:
 
 | # | Pillar | What most teams do instead |
 | --- | --- | --- |
-| 1 | **Assortment-gap is part of the score, not a footnote.** `coverage_status` (absent/partially_covered/covered) is one of four scoring pillars, worth 25% of `composite_score` by default. | Most teams say "X is trending" and stop. |
+| 1 | **Assortment-gap is part of the score, not a footnote.** `coverage_status` (absent/partially_covered/covered) is one of five scoring pillars, worth 20% of `composite_score` by default. | Most teams say "X is trending" and stop. |
 | 2 | **Calibrated honesty.** Low-evidence opportunities are explicitly flagged `watch`, not `act_now` — even if they're exciting. | Most teams rank everything as a buy. |
 | 3 | **Hybrid scoring, not a black box.** Breadth and Momentum are pure arithmetic on scraped data (`numpy.polyfit`, source-type counts) — auditable with no API key. Only Transferability uses an LLM, and only because that judgment genuinely requires reasoning about culture/climate/commerce fit. ([ADR 0001](docs/adr/0001-hybrid-scoring.md)) | Most teams either hand everything to an LLM (unauditable) or hand-code thresholds with no reasoning layer (brittle). |
 | 4 | **Reusability is demoed live, not claimed.** A `RetailerContext` Q&A wizard reconfigures the entire system for a new market/category/persona in front of the jury — no code edit. | Most teams say "this is reusable" in a slide with no proof. |
@@ -50,8 +50,8 @@ class RetailerContext:
     niche: str                         # e.g. "outdoor", swap to "cycling" to prove reuse
     demographic_filters: dict          # gender, age range
     competitor_urls: list[str]         # e.g. Bächli, Transa — for the assortment-gap check
-    persona: str                       # "large_retailer" | "boutique" | "individual_dtc"
-    scoring_weights: dict              # {breadth, momentum, transferability, coverage_gap} — sums to 1.0
+    persona: str                       # "large_retailer" | "boutique" | "individual_dtc"  # we can write in Niche/Who we are sector 
+    scoring_weights: dict              # {breadth, momentum, transferability, coverage_gap, risk} — sums to 1.0
 ```
 
 **Why this matters for the demo:** instead of editing `config.py` and re-running a script, the jury watches you type answers into a Q&A flow on stage, hit submit, and watch the ranked list reorder for a different market or persona. That is the reusability proof the rubric asks for — *shown, not claimed.*
@@ -113,7 +113,7 @@ When two rows do collapse (same keyword, brand, market, different source), keep 
 
 **Decision:** deterministic computation wherever data supports it; an LLM only where genuine judgment is required. See [`docs/adr/0001-hybrid-scoring.md`](docs/adr/0001-hybrid-scoring.md).
 
-`composite_score` (0–1) is a transparent, traceable weighted average of four pillars. Every point on the final number can be justified on one slide — this is what "transparent scoring" in the evaluation rubric rewards, instead of a black-box LLM score.
+`composite_score` (0–1) is a transparent, traceable weighted average of five pillars. Every point on the final number can be justified on one slide — this is what "transparent scoring" in the evaluation rubric rewards, instead of a black-box LLM score.
 
 | Pillar | Range | Computed by | What it captures |
 | --- | --- | --- | --- |
@@ -121,20 +121,36 @@ When two rows do collapse (same keyword, brand, market, different source), keep 
 | **Momentum** | 0–10 → normalised /10 | Deterministic — Google Trends 90-day slope per comparison market via `numpy.polyfit` | How fast it's actually rising, not just "is it mentioned" |
 | **Transferability** | 1–5 → normalised (score−1)/4 | **LLM**, structured JSON output (`score`, `reason`, `urgency`), grounded in the specific market pair + `RetailerContext` | Whether *this* comparison-market → target-market pair makes cultural, climatic, and commercial sense — a judgment, not a lookup table |
 | **Coverage Gap** | mapped to 0–1 | Deterministic — `coverage_status` from the competitor-assortment scan | `absent` = 1.0, `partially_covered` = 0.5, `covered` = 0.1, `unknown`/`not_relevant` = 0.2 |
+| **Risk Factor** | mapped to 0–1, inverted | Deterministic — count of triggered `risk_flags` against a curated taxonomy | Lower score the more risk flags fire; rewards opportunities that are not just promising but *safe to act on* |
 
 ```python
+RISK_TAXONOMY = [
+    "supply_chain",        # single supplier, long lead time, geopolitical exposure
+    "single_supplier",     # no fallback vendor if the deal falls through
+    "price_volatility",    # FX exposure, tariff risk, raw-material cost swings
+    "regulatory",          # import restrictions, safety certification, EU material rules
+    "low_moq_barrier",     # minimum order quantity too high for a small test buy
+]
+
+def risk_score(flags: list[str]) -> float:
+    triggered = len(set(flags) & set(RISK_TAXONOMY))
+    return 1 - (triggered / len(RISK_TAXONOMY))   # 1.0 = no flags, fewer flags = safer
+
 composite_score = (
     weights["breadth"]          * breadth_norm +
     weights["momentum"]         * momentum_norm +
     weights["transferability"]  * transferability_norm +
-    weights["coverage_gap"]     * coverage_gap_score
+    weights["coverage_gap"]     * coverage_gap_score +
+    weights["risk"]             * risk_score(risk_flags)
 )
-# default weights: equal, 0.25 each — overridable via RetailerContext.scoring_weights (UI sliders)
+# default weights: equal, 0.20 each — overridable via RetailerContext.scoring_weights (UI sliders)
 ```
 
 **Why Coverage Gap is a scoring pillar and not just a badge:** this is the single biggest differentiator vs. every other team's "trend list." Baking the assortment-gap check directly into the number — not just displaying it — means the score itself is already arguing "this is a buy because the shelf has a hole," not "this is popular."
 
-**Honest caveat to say on stage:** Transferability requires one LLM call per opportunity — added latency/cost, and it's the one non-deterministic input. Breadth, Momentum, and Coverage Gap are fully auditable and rerunnable with zero API key. A future fully-offline mode could swap Transferability for a rule table if needed.
+**Why Risk Factor is a pillar too, not just `risk_flags` badges:** a high-momentum, absent-from-shelf opportunity that depends on a single overseas supplier with tariff exposure is *not* the same recommendation as one with a stable, diversified supply chain — even at identical Breadth/Momentum/Coverage scores. Scoring risk directly means two opportunities that look identical on hype and gap alone can still rank differently once supply realism is priced in. `risk_flags` stays in the output as a human-readable badge list; `risk_score()` is what actually moves the rank.
+
+**Honest caveat to say on stage:** Transferability requires one LLM call per opportunity — added latency/cost, and it's the one non-deterministic input. Breadth, Momentum, Coverage Gap, and Risk Factor are fully auditable and rerunnable with zero API key. The risk taxonomy is a curated list, not exhaustive — say so if asked what's missing (e.g. currency exposure, brand-exclusivity lock-in). A future fully-offline mode could swap Transferability for a rule table if needed.
 
 ### Confidence label (derived, not separately scored)
 
@@ -265,7 +281,8 @@ The full reference lives in [`docs/data-contract.md`](docs/data-contract.md), ex
     "breadth": { "total": 0.8, "count": 4 },
     "momentum": { "total": 0.76, "slope": 8.2 },
     "transferability": { "total": 0.91, "explanation": "Matches Swiss trail-running culture; UTMB community is a ready-made audience" },
-    "coverage_gap": { "total": 1.0, "explanation": "Absent from Bächli and Transa as of observed_at" }
+    "coverage_gap": { "total": 1.0, "explanation": "Absent from Bächli and Transa as of observed_at" },
+    "risk": { "total": 0.8, "flags_triggered": ["supply_chain"], "explanation": "Single-supplier exposure on A-TPU foam component; otherwise low risk" }
   },
   "explainability": {
     "why_trending": "90-day search slope +8.2 in US and Nordics; 4 independent source types agree",
@@ -317,6 +334,7 @@ This is the exact shape the Lovable frontend reads — see [`diagram.md`](diagra
 | Evidence quality | "Every opportunity carries its source URLs and `observed_at` — nothing is asserted without a link." |
 | Transferability | "Transferability is LLM-reasoned over the specific market pair and `RetailerContext`, not a generic trend score — and it's grounded by a deterministic assortment-gap check." |
 | Business actionability | "We don't say buy — we say how much, for how long, and what to watch to stop. Trends turn." |
+| Risk awareness | "Risk isn't a footnote either — supply-chain, single-supplier, and regulatory exposure are a fifth scoring pillar, so two equally hyped opportunities can still rank differently once we price in how safe they are to act on." |
 | Reusability | "Watch this: we change `RetailerContext` live — new market, new persona — and the ranking recomputes with zero code change." |
 | Technical architecture | "Hybrid by design: deterministic dimensions need no API key and are fully rerunnable; only the one dimension that requires judgment uses an LLM." |
 | Communication | "The dashboard splits `act_now` from `watch` at a glance, and every card opens into its full evidence trail." |
@@ -329,4 +347,5 @@ This is the exact shape the Lovable frontend reads — see [`diagram.md`](diagra
 - Trend stage and sell-through gates are signal-based estimates, re-validated against real sell-through after stocking.
 - Entity canonicalisation uses a curated allowlist, not fuzzy matching — safer under time pressure, but only as complete as the list.
 - Transferability scoring requires one LLM call per opportunity (cost/latency); everything else is free to rerun.
+- The risk taxonomy (§6) is a curated, fixed list — it catches the risk types we anticipated, not every possible one.
 - Demo scope: one persona (`large_retailer`) fully implemented, a second persona switched live to prove the pattern — not all three built out.

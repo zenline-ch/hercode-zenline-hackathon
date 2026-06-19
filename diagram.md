@@ -58,11 +58,12 @@ flowchart LR
         B["Breadth\nsource-type count, 0-5"]
         M["Momentum\nGoogle Trends slope\n(numpy.polyfit), 0-10"]
         CG["Coverage Gap\nabsent=1.0 / partial=0.5 / covered=0.1"]
+        RF["Risk Factor\n1 - (flags triggered / taxonomy size)\ninverted: fewer flags = higher score"]
     end
     subgraph LLM["LLM — judgment required"]
         T["Transferability\nscore 1-5 + reason + urgency\ngrounded in RetailerContext"]
     end
-    DET --> COMP["composite_score\nweighted avg, default 0.25 each"]
+    DET --> COMP["composite_score\nweighted avg, default 0.20 each (5 pillars)"]
     LLM --> COMP
     COMP --> CONF["confidence label\nhigh ≥0.70 / medium ≥0.45 / low below"]
     CONF -->|"low forces"| GUARD["urgency guard\nlow confidence → urgency=watch\n(LLM cannot override)"]
