@@ -64,6 +64,7 @@
           "urgency": "act_now",
           "via": "heuristic_fallback",
           "avg_quality": 0.53,
+          "llm_error": "Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CcCp8Mr3sFRikSow2Q9TR'}",
           "outdoor_relevance": 5,
           "climate_fit": 3,
           "dach_availability_gap": 5
@@ -193,6 +194,7 @@
           "urgency": "act_now",
           "via": "heuristic_fallback",
           "avg_quality": 0.59,
+          "llm_error": "Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CcCp8J2rVngbTKJ5RyWnn'}",
           "outdoor_relevance": 3,
           "climate_fit": 3,
           "dach_availability_gap": 5
@@ -366,6 +368,7 @@
           "urgency": "act_now",
           "via": "heuristic_fallback",
           "avg_quality": 0.5,
+          "llm_error": "Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CcCp8PpcH3Y588mEa8Hti'}",
           "outdoor_relevance": 3,
           "climate_fit": 3,
           "dach_availability_gap": 5
@@ -492,6 +495,7 @@
           "urgency": "act_now",
           "via": "heuristic_fallback",
           "avg_quality": 0.7,
+          "llm_error": "Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CcCp8LZu4zAwjr5RskPNm'}",
           "outdoor_relevance": 3,
           "climate_fit": 5,
           "dach_availability_gap": 3
@@ -627,6 +631,7 @@
           "urgency": "watch",
           "via": "heuristic_fallback",
           "avg_quality": 0.26,
+          "llm_error": "Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CcCp8RAj2duYFwPJ7d6yz'}",
           "outdoor_relevance": 3,
           "climate_fit": 2,
           "dach_availability_gap": 2

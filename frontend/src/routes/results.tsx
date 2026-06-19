@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -11,6 +11,7 @@ import {
   type Opportunity,
   type PillarScore,
 } from "@/lib/domain";
+import { fetchOpportunities, type DataSource } from "@/lib/api";
 
 export const Route = createFileRoute("/results")({
   head: () => ({
@@ -27,13 +28,43 @@ function Page() {
   const setContext = useApp((s) => s.setContext);
   const [openId, setOpenId] = useState<string | null>(null);
 
+  // Opportunities come from the FastAPI backend (real LLM scoring). Until the
+  // fetch resolves — or if the backend is unreachable — we fall back to the
+  // bundled mock OPPORTUNITIES so the page always renders.
+  const [opps, setOpps] = useState<Opportunity[]>(OPPORTUNITIES);
+  const [source, setSource] = useState<DataSource>("offline");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    // live=true -> runs the real LLM on the backend (exercises ANTHROPIC_API_KEY)
+    fetchOpportunities(true)
+      .then((res) => {
+        if (cancelled) return;
+        if (res.opportunities.length) {
+          setOpps(res.opportunities);
+          setSource(res.source);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setSource("offline"); // keep bundled mock data
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const weights = ctx?.weights ?? { trend: 1, transfer: 1, opportunity: 1, redflag: 1 };
 
   const scored = useMemo(() => {
-    return OPPORTUNITIES
+    return opps
       .map((o) => ({ o, composite: compositeScore(o, weights), urgency: urgency(o, weights) }))
       .sort((a, b) => b.composite - a.composite);
-  }, [weights]);
+  }, [opps, weights]);
 
   if (!ctx) {
     return (
@@ -57,7 +88,10 @@ function Page() {
     <AppShell>
       <div className="max-w-6xl mx-auto px-6 py-10">
         <header className="mb-8">
-          <p className="chip mb-3">Step 03 · Watch / Act</p>
+          <div className="flex items-center gap-2 mb-3">
+            <p className="chip">Step 03 · Watch / Act</p>
+            <SourceBadge source={source} loading={loading} />
+          </div>
           <h1 className="font-serif text-4xl font-semibold leading-tight">
             Six opportunities, fully shown work.
           </h1>
@@ -117,6 +151,35 @@ function Page() {
         </div>
       </div>
     </AppShell>
+  );
+}
+
+function SourceBadge({ source, loading }: { source: DataSource; loading: boolean }) {
+  if (loading) {
+    return (
+      <span className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded bg-muted text-muted-foreground">
+        loading backend…
+      </span>
+    );
+  }
+  const map: Record<DataSource, { label: string; bg: string; fg: string }> = {
+    live: { label: "live · LLM", bg: "var(--color-act)", fg: "var(--color-act-foreground)" },
+    "mock-api": { label: "backend · demo data", bg: "var(--color-watch)", fg: "var(--color-watch-foreground)" },
+    offline: { label: "offline · mock", bg: "var(--color-muted)", fg: "var(--color-muted-foreground)" },
+  };
+  const m = map[source];
+  return (
+    <span
+      className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded"
+      style={{ background: m.bg, color: m.fg }}
+      title={
+        source === "offline"
+          ? "Backend unreachable — showing bundled mock data. Start it: uvicorn api:app --port 8000"
+          : "Data fetched from the FastAPI backend (zenline_radar pipeline)."
+      }
+    >
+      {m.label}
+    </span>
   );
 }
 
