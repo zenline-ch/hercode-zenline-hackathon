@@ -170,7 +170,7 @@ def _transferability_llm(signals, context: RetailerContext, opportunity_name: st
     import anthropic
 
     client = anthropic.Anthropic(api_key=api_key)
-    model = os.environ.get("ANTHROPIC_MODEL", "claude-3-5-sonnet-latest")
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
     evidence = "\n".join(
         f"- [{s.source}, {s.market}] {s.signal_name}: {s.notes}" for s in signals[:8]
     )

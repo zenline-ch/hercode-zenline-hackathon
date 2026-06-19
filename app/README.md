@@ -37,8 +37,8 @@ Transferability score fall back to deterministic logic if `ANTHROPIC_API_KEY` is
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-# optional, defaults to claude-3-5-sonnet-latest
-export ANTHROPIC_MODEL=claude-3-5-sonnet-latest
+# optional, defaults to claude-sonnet-4-6
+export ANTHROPIC_MODEL=claude-sonnet-4-6
 streamlit run streamlit_app.py
 ```
 

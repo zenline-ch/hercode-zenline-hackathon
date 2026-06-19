@@ -40,7 +40,7 @@ def _answer_llm(question, context, opportunities, history, api_key) -> tuple[str
     import anthropic
 
     client = anthropic.Anthropic(api_key=api_key)
-    model = os.environ.get("ANTHROPIC_MODEL", "claude-3-5-sonnet-latest")
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
     system = (
         "You are Retail Radar's analyst chat for a Swiss outdoor retailer. "
         "Answer using ONLY the opportunity data provided below -- do not invent SKUs, prices, "
