@@ -1,0 +1,402 @@
+[
+  {
+    "id": "trail-running-shoes",
+    "name": "Trail Running Shoes",
+    "keyword": "trail running shoes",
+    "brand": "Hoka",
+    "product_name": "Speedgoat 5",
+    "markets": ["US"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 9.0,
+    "evidence_urls": ["https://www.hoka.com", "https://trends.google.com/trends/explore?q=trail+running+shoes&geo=US"],
+    "confidence": "high",
+    "rank": 1,
+    "composite_score": 0.84,
+    "trend_stage": "growing",
+    "buy_recommendation": "Scale up · negotiate supplier terms",
+    "urgency": "act_now",
+    "scores": {
+      "trend": { "total": 0.9, "growth": 9.0 },
+      "transferability": {
+        "total": 0.875,
+        "outdoor_relevance": 5,
+        "dach_availability_gap": 4,
+        "explanation": "Trail running is a core Swiss outdoor activity; Hoka is underrepresented in Swiss specialty retail vs Salomon."
+      },
+      "opportunity": {
+        "total": 0.8,
+        "availability_gap": 4,
+        "retail_saturation": 4,
+        "brand_availability": 4,
+        "explanation": "Hoka EU distributor (Amer Sports) ships to DACH; Swiss specialty retail lags behind mass channels."
+      },
+      "red_flag": {
+        "total": 0.25,
+        "supply_chain_risk": 2,
+        "regulatory_risk": 1,
+        "brand_concentration": 2,
+        "explanation": "Amer Sports exclusivity terms may limit margin; seasonal demand peaks in spring."
+      }
+    },
+    "explainability": {
+      "why_trending": "90-day US search slope at 9.0/10; Hoka overtook Salomon as #1 trail shoe brand in North America in Q1 2026.",
+      "why_fits_switzerland": "Alpine trail culture is identical to the US Rocky Mountain market where Hoka dominates; Swiss runners already buy direct from Hoka.com.",
+      "why_opportunity_now": "Hoka has just opened DACH distribution through Amer Sports — first-mover specialty retailers can secure early allocation.",
+      "why_to_be_cautious": "Amer Sports exclusivity terms may limit margin; watch for Decathlon entering the trail segment at lower price points."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "US", "keyword": "trail running shoes", "signal_score": 9.0, "url": "https://www.hoka.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "merino-wool-base-layer",
+    "name": "Merino Wool Base Layer",
+    "keyword": "merino wool base layer",
+    "brand": "Icebreaker",
+    "product_name": "",
+    "markets": ["SE"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 7.5,
+    "evidence_urls": ["https://www.icebreaker.com"],
+    "confidence": "high",
+    "rank": 2,
+    "composite_score": 0.79,
+    "trend_stage": "emerging",
+    "buy_recommendation": "Test order · small stock · monitor closely",
+    "urgency": "act_now",
+    "scores": {
+      "trend": { "total": 0.75, "growth": 7.5 },
+      "transferability": {
+        "total": 0.875,
+        "outdoor_relevance": 5,
+        "dach_availability_gap": 3,
+        "explanation": "Merino performs perfectly in Swiss alpine conditions; Icebreaker is growing in Scandinavia but still underexposed in Swiss specialty retail."
+      },
+      "opportunity": {
+        "total": 0.733,
+        "availability_gap": 4,
+        "retail_saturation": 3,
+        "brand_availability": 4,
+        "explanation": "Icebreaker (VF Corp) has a strong EU distribution network; category margin is 55–65% for specialty retailers."
+      },
+      "red_flag": {
+        "total": 0.2,
+        "supply_chain_risk": 2,
+        "regulatory_risk": 1,
+        "brand_concentration": 2,
+        "explanation": "Category has established competitors (Odlo, Ortovox); merino price point limits volume."
+      }
+    },
+    "explainability": {
+      "why_trending": "Top-selling category in Scandinavian outdoor retail Q1 2026; sustainability and natural fibre search queries up 40% YoY.",
+      "why_fits_switzerland": "Swiss hikers and ski tourers have strong preference for natural fibres; local brand Ortovox validates demand but leaves room for Icebreaker positioning.",
+      "why_opportunity_now": "VF Corp is restructuring Icebreaker's EU distribution — now is the window to lock in preferred retailer terms.",
+      "why_to_be_cautious": "Ortovox already owns the merino narrative in DACH; Icebreaker needs clear differentiation in store."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "SE", "keyword": "merino wool base layer", "signal_score": 7.5, "url": "https://www.icebreaker.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "gravel-e-bike",
+    "name": "Gravel E-Bike",
+    "keyword": "gravel bike",
+    "brand": "Specialized",
+    "product_name": "",
+    "markets": ["SE"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 8.5,
+    "evidence_urls": ["https://www.specialized.com"],
+    "confidence": "high",
+    "rank": 3,
+    "composite_score": 0.71,
+    "trend_stage": "growing",
+    "buy_recommendation": "Scale up · negotiate supplier terms",
+    "urgency": "act_now",
+    "scores": {
+      "trend": { "total": 0.85, "growth": 8.5 },
+      "transferability": {
+        "total": 0.75,
+        "outdoor_relevance": 4,
+        "dach_availability_gap": 4,
+        "explanation": "Swiss cycling infrastructure and alpine touring culture are a natural fit for gravel e-bikes; Flyer and Stromer validate DACH e-bike demand."
+      },
+      "opportunity": {
+        "total": 0.667,
+        "availability_gap": 4,
+        "retail_saturation": 3,
+        "brand_availability": 3,
+        "explanation": "Gravel segment is undercovered by Swiss outdoor retailers vs. bike specialists; higher AOV increases revenue per transaction."
+      },
+      "red_flag": {
+        "total": 0.417,
+        "supply_chain_risk": 4,
+        "regulatory_risk": 2,
+        "brand_concentration": 3,
+        "explanation": "Single EU Specialized distributor for DACH; category expertise required (service, fit) that outdoor retailers may lack."
+      }
+    },
+    "explainability": {
+      "why_trending": "Gravel cycling overtook MTB in Scandinavian markets in 2025; search trend slope 8.5/10 in Sweden and Canada.",
+      "why_fits_switzerland": "Swiss gravel routes (Jura, Mittelland) are world-class; Swiss commuters adopt e-assist for Alpine terrain.",
+      "why_opportunity_now": "Bike specialists are focused on MTB and road; gravel outdoor crossover (bikepacking, touring) is unowned in Swiss outdoor retail.",
+      "why_to_be_cautious": "Requires significant category expertise for fitting and servicing; Specialized DACH distributor has strict authorised retailer requirements."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "SE", "keyword": "gravel bike", "signal_score": 8.5, "url": "https://www.specialized.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "recycled-down-jacket",
+    "name": "Recycled Down Jacket",
+    "keyword": "recycled down jacket",
+    "brand": "Picture Organic",
+    "product_name": "",
+    "markets": ["CA"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 8.0,
+    "evidence_urls": ["https://www.picture-organic-clothing.com"],
+    "confidence": "high",
+    "rank": 4,
+    "composite_score": 0.68,
+    "trend_stage": "emerging",
+    "buy_recommendation": "Test order · small stock · monitor closely",
+    "urgency": "act_now",
+    "scores": {
+      "trend": { "total": 0.8, "growth": 8.0 },
+      "transferability": {
+        "total": 0.75,
+        "outdoor_relevance": 5,
+        "dach_availability_gap": 3,
+        "explanation": "Sustainability is a strong purchase driver for Swiss outdoor consumers; recycled down is gaining traction as the responsible alternative to virgin down."
+      },
+      "opportunity": {
+        "total": 0.6,
+        "availability_gap": 3,
+        "retail_saturation": 3,
+        "brand_availability": 3,
+        "explanation": "Picture Organic has EU warehouse; French brand with strong Alpine credibility that resonates with Swiss consumers."
+      },
+      "red_flag": {
+        "total": 0.333,
+        "supply_chain_risk": 3,
+        "regulatory_risk": 2,
+        "brand_concentration": 2,
+        "explanation": "Patagonia and Arc'teryx already own the sustainable insulation narrative; differentiation requires strong in-store storytelling."
+      }
+    },
+    "explainability": {
+      "why_trending": "Sustainability-focused outdoor gear search queries up 40% in Canada YoY; recycled materials becoming a purchase prerequisite for Swiss under-35 consumers.",
+      "why_fits_switzerland": "Swiss consumers rank sustainability as the #1 outdoor purchase criterion (GfK 2025); DACH lacks a strong French outdoor brand in this space.",
+      "why_opportunity_now": "Picture Organic is actively expanding DACH retail accounts — trade terms available now, before peak AW26 buying window closes.",
+      "why_to_be_cautious": "Arc'teryx and Patagonia dominate the sustainable insulation narrative; Picture Organic needs strong floor space and staff training to compete."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "CA", "keyword": "recycled down jacket", "signal_score": 8.0, "url": "https://www.picture-organic-clothing.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "ultralight-tent",
+    "name": "Ultralight Tent",
+    "keyword": "lightweight tent",
+    "brand": "Nemo",
+    "product_name": "Aura 2",
+    "markets": ["NO"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 7.0,
+    "evidence_urls": ["https://www.nemoequipment.com"],
+    "confidence": "medium",
+    "rank": 5,
+    "composite_score": 0.61,
+    "trend_stage": "emerging",
+    "buy_recommendation": "Test order · small stock · monitor closely",
+    "urgency": "watch",
+    "scores": {
+      "trend": { "total": 0.7, "growth": 7.0 },
+      "transferability": {
+        "total": 0.625,
+        "outdoor_relevance": 4,
+        "dach_availability_gap": 3,
+        "explanation": "Bikepacking and fastpacking are growing in Switzerland; ultralight tents are a logical accessory purchase for the trail running customer."
+      },
+      "opportunity": {
+        "total": 0.6,
+        "availability_gap": 3,
+        "retail_saturation": 3,
+        "brand_availability": 3,
+        "explanation": "Nemo has EU distribution; category currently dominated by MSR and Big Agnes with limited NEMO visibility in CH."
+      },
+      "red_flag": {
+        "total": 0.25,
+        "supply_chain_risk": 2,
+        "regulatory_risk": 1,
+        "brand_concentration": 2,
+        "explanation": "MSR and Big Agnes are deeply entrenched; ultralight category requires knowledgeable floor staff."
+      }
+    },
+    "explainability": {
+      "why_trending": "Ultralight camping growing in Norwegian outdoor market; fastpacking search queries +35% in Nordics last 90 days.",
+      "why_fits_switzerland": "Swiss alpine terrain rewards lightweight kits; fastpacking is an extension of the trail running community already active in Switzerland.",
+      "why_opportunity_now": "No Swiss outdoor specialist currently positions NEMO as a premium ultralight alternative to MSR — assortment gap exists.",
+      "why_to_be_cautious": "Category requires high staff knowledge for selling; MSR customer loyalty is strong in the alpine market."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "NO", "keyword": "lightweight tent", "signal_score": 7.0, "url": "https://www.nemoequipment.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "solar-panel-backpack",
+    "name": "Solar Panel Backpack",
+    "keyword": "solar panel backpack",
+    "brand": "Goal Zero",
+    "product_name": "",
+    "markets": ["NO"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 6.5,
+    "evidence_urls": ["https://www.goalzero.com"],
+    "confidence": "medium",
+    "rank": 6,
+    "composite_score": 0.54,
+    "trend_stage": "emerging",
+    "buy_recommendation": "Test order · small stock · monitor closely",
+    "urgency": "watch",
+    "scores": {
+      "trend": { "total": 0.65, "growth": 6.5 },
+      "transferability": {
+        "total": 0.625,
+        "outdoor_relevance": 3,
+        "dach_availability_gap": 4,
+        "explanation": "Tech-integrated outdoor gear is growing but niche; Swiss alpine sun exposure is high, supporting solar utility."
+      },
+      "opportunity": {
+        "total": 0.533,
+        "availability_gap": 3,
+        "retail_saturation": 3,
+        "brand_availability": 2,
+        "explanation": "Goal Zero distribution in CH is limited to online; no specialty outdoor retailer currently stocks the category prominently."
+      },
+      "red_flag": {
+        "total": 0.417,
+        "supply_chain_risk": 3,
+        "regulatory_risk": 3,
+        "brand_concentration": 3,
+        "explanation": "Solar panel efficiency concerns at altitude; e-waste regulation in CH may require specific certifications."
+      }
+    },
+    "explainability": {
+      "why_trending": "Tech-outdoor crossover growing in Norway; remote work and connectivity needs driving interest in off-grid power solutions.",
+      "why_fits_switzerland": "Swiss alpine sun hours support solar charging; growing bikepacking and hut-to-hut touring market needs power solutions.",
+      "why_opportunity_now": "Category is early-stage in DACH — first specialist retailer to stock it captures the tech-savvy outdoor customer.",
+      "why_to_be_cautious": "E-waste and battery regulations in Switzerland may require additional certifications; Goal Zero EU distribution is thin."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "NO", "keyword": "solar panel backpack", "signal_score": 6.5, "url": "https://www.goalzero.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "cork-yoga-mat",
+    "name": "Cork Yoga Mat",
+    "keyword": "cork yoga mat",
+    "brand": "Manduka",
+    "product_name": "",
+    "markets": ["CA"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 6.0,
+    "evidence_urls": ["https://www.manduka.com"],
+    "confidence": "medium",
+    "rank": 7,
+    "composite_score": 0.49,
+    "trend_stage": "mainstream",
+    "buy_recommendation": "Evaluate margin · assess competitive positioning",
+    "urgency": "watch",
+    "scores": {
+      "trend": { "total": 0.6, "growth": 6.0 },
+      "transferability": {
+        "total": 0.5,
+        "outdoor_relevance": 2,
+        "dach_availability_gap": 4,
+        "explanation": "Wellness-outdoor crossover is real but yoga mats are peripheral to core outdoor retail; risk of category confusion."
+      },
+      "opportunity": {
+        "total": 0.467,
+        "availability_gap": 3,
+        "retail_saturation": 2,
+        "brand_availability": 3,
+        "explanation": "Manduka is available in CH but primarily via yoga studios and online; specialty outdoor retailers lack this SKU entirely."
+      },
+      "red_flag": {
+        "total": 0.333,
+        "supply_chain_risk": 2,
+        "regulatory_risk": 2,
+        "brand_concentration": 3,
+        "explanation": "Category is dominated by Lululemon and Manduka in the premium segment; outdoor retailer differentiation story is weak."
+      }
+    },
+    "explainability": {
+      "why_trending": "Wellness-outdoor crossover growing in Canadian market; outdoor yoga and forest bathing trends up in lifestyle publications.",
+      "why_fits_switzerland": "Swiss wellness tourism is strong; cork is a natural sustainable material that resonates with Swiss eco-conscious consumers.",
+      "why_opportunity_now": "Adjacent category that could attract a new wellness customer to the outdoor store — but needs a clear positioning strategy.",
+      "why_to_be_cautious": "Risk of diluting the outdoor brand identity; Lululemon is expanding rapidly in Swiss cities and dominates yoga retail."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "CA", "keyword": "cork yoga mat", "signal_score": 6.0, "url": "https://www.manduka.com", "observed_at": "2026-06-19" }
+    ]
+  },
+  {
+    "id": "bamboo-hiking-poles",
+    "name": "Bamboo Hiking Poles",
+    "keyword": "bamboo hiking poles",
+    "brand": "Gossamer Gear",
+    "product_name": "",
+    "markets": ["US"],
+    "source_types": ["manual"],
+    "signal_breadth": 1,
+    "best_signal_score": 5.5,
+    "evidence_urls": ["https://www.gossamergear.com"],
+    "confidence": "low",
+    "rank": 8,
+    "composite_score": 0.42,
+    "trend_stage": "mainstream",
+    "buy_recommendation": "Evaluate margin · assess competitive positioning",
+    "urgency": "watch",
+    "scores": {
+      "trend": { "total": 0.55, "growth": 5.5 },
+      "transferability": {
+        "total": 0.375,
+        "outdoor_relevance": 3,
+        "dach_availability_gap": 3,
+        "explanation": "Hiking poles are core outdoor product but bamboo variant is niche; Swiss market dominated by Black Diamond and Leki with strong brand loyalty."
+      },
+      "opportunity": {
+        "total": 0.4,
+        "availability_gap": 2,
+        "retail_saturation": 3,
+        "brand_availability": 2,
+        "explanation": "Gossamer Gear has no EU distributor; importing from US is complex and margin would be very thin after logistics."
+      },
+      "red_flag": {
+        "total": 0.5,
+        "supply_chain_risk": 4,
+        "regulatory_risk": 2,
+        "brand_concentration": 4,
+        "explanation": "No EU distributor exists; category dominated by Leki and Black Diamond; bamboo durability concerns for alpine use."
+      }
+    },
+    "explainability": {
+      "why_trending": "Sustainable materials entering trekking poles market; bamboo hiking content appearing in US ultralight communities.",
+      "why_fits_switzerland": "Weak fit — Swiss hikers prioritise technical performance over material story; Leki dominance is very strong in DACH.",
+      "why_opportunity_now": "No immediate window — Gossamer Gear has no EU presence; this would require 12+ months of distributor development.",
+      "why_to_be_cautious": "No EU distributor, very strong incumbent brands, and bamboo poles face durability scepticism in the alpine market."
+    },
+    "signals": [
+      { "source": "Manual Research", "signal_type": "manual", "market": "US", "keyword": "bamboo hiking poles", "signal_score": 5.5, "url": "https://www.gossamergear.com", "observed_at": "2026-06-19" }
+    ]
+  }
+]

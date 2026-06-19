@@ -62,16 +62,13 @@ The scoring pipeline produces one JSON object per opportunity. This is the shape
   "scores": {
 
     "trend": {
-      "total": 0.76,
-      "growth": 8.2,
-      "noise_score": 4.1,
-      "recency_days": 12
+      "total": 0.82,
+      "growth": 8.2
     },
 
     "transferability": {
       "total": 0.91,
       "outdoor_relevance": 5,
-      "climate_fit": 4,
       "dach_availability_gap": 4,
       "explanation": "Matches alpine commuter culture; Flyer and Stromer validate DACH demand"
     },
@@ -82,6 +79,14 @@ The scoring pipeline produces one JSON object per opportunity. This is the shape
       "retail_saturation": 3,
       "brand_availability": 4,
       "explanation": "Low CH saturation in gravel segment; German distributor ships direct"
+    },
+
+    "red_flag": {
+      "total": 0.32,
+      "supply_chain_risk": 4,
+      "regulatory_risk": 1,
+      "brand_concentration": 2,
+      "explanation": "Single EU distributor for DACH; seasonal demand spike in spring"
     }
 
   },
@@ -89,10 +94,9 @@ The scoring pipeline produces one JSON object per opportunity. This is the shape
   "explainability": {
     "why_trending":         "90-day search slope +8.2 in Nordics and US; 4 independent source types agree",
     "why_fits_switzerland": "Matches alpine commuter culture; Flyer and Stromer validate DACH demand",
-    "why_opportunity_now":  "Low CH saturation in gravel segment; German distributor ships direct"
+    "why_opportunity_now":  "Low CH saturation in gravel segment; German distributor ships direct",
+    "why_to_be_cautious":   "Single EU distributor for DACH; seasonal demand spike in spring"
   },
-
-  "risk_flags": ["supply_chain"],
 
   "signals": [
     {
@@ -138,15 +142,19 @@ The scoring pipeline produces one JSON object per opportunity. This is the shape
 | --- | --- | --- | --- |
 | `trend_stage` | `emerging` · `growing` · `mainstream` · `declining` | Derived from Trend sub-scores | Drives `buy_recommendation` |
 | `urgency` | `act_now` · `watch` | LLM (transferability step) | Used to split output into two sections |
-| `composite_score` | 0–1 | Weighted avg of three pillar totals | Default equal weight, configurable via UI |
+| `composite_score` | 0–1 | `avg(trend · transferability · opportunity · (1 - red_flag))` | Equal weight by default; configurable via sliders |
 | `trend.growth` | 0–10 | Google Trends 90-day slope | Higher = faster rising |
-| `trend.noise_score` | 0–5 | Ratio of multi-source vs social-only signals | Higher = less noisy |
-| `trend.recency_days` | integer | Avg days since signals were observed | Lower = fresher evidence |
-| `transferability.*` | 1–5 | LLM-scored | 5 = strong fit for Switzerland / DACH |
-| `opportunity.*` | 1–5 | LLM-scored | 5 = large gap / low saturation / high access |
-| `*.total` | 0–1 | Normalized avg of sub-dimensions | Ready for weighted composite |
-| `*.explanation` | string | LLM | Same text as matching `explainability` field |
-| `risk_flags` | string[] | LLM, grounded in Q&A risk factors | Displayed as warning badges in UI |
+| `trend.total` | 0–1 | Normalized growth | Only sub-dimension in Trend pillar |
+| `transferability.outdoor_relevance` | 1–5 | LLM | 5 = strong niche fit |
+| `transferability.dach_availability_gap` | 1–5 | LLM | 5 = product absent in DACH |
+| `opportunity.availability_gap` | 1–5 | LLM | 5 = easy to source |
+| `opportunity.retail_saturation` | 1–5 | LLM | 5 = low saturation (good) |
+| `opportunity.brand_availability` | 1–5 | LLM | 5 = brand accessible via distributor |
+| `red_flag.supply_chain_risk` | 1–5 | LLM | 5 = very high risk |
+| `red_flag.regulatory_risk` | 1–5 | LLM | 5 = very high risk |
+| `red_flag.brand_concentration` | 1–5 | LLM | 5 = category dominated by incumbents |
+| `red_flag.total` | 0–1 | Normalized avg of red-flag sub-dimensions | Used as `(1 - total)` in composite — high risk lowers overall score |
+| `*.explanation` | string | LLM | Same text shown in matching `explainability` field |
 
 ### Buy recommendation by trend stage
 

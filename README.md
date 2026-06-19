@@ -54,6 +54,62 @@ Teams should have 2-4 people. Discord is the main communication channel before a
 
 Intro session deck: [`slides/hercode-zenline-hackathon-intro.pptx`](slides/hercode-zenline-hackathon-intro.pptx).
 
+## Zenline Retail Radar — Our Submission
+
+### Setup
+
+```bash
+# Install dependencies
+poetry install
+
+# Copy and fill in your API key
+cp .env.example .env
+# edit .env → ANTHROPIC_API_KEY=sk-ant-...
+```
+
+### Run the Streamlit dashboard
+
+```bash
+poetry run streamlit run app.py
+```
+
+### Run the CLI pipeline
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-... poetry run python -m zenline_radar.cli
+
+# With live data sources:
+ANTHROPIC_API_KEY=sk-ant-... poetry run python -m zenline_radar.cli --google-trends --amazon
+
+# Limit to first N opportunities (faster for testing):
+ANTHROPIC_API_KEY=sk-ant-... poetry run python -m zenline_radar.cli --limit 3
+```
+
+### Architecture
+
+```
+Q&A Setup (RetailerContext)
+    ↓
+Signal Collection (Google Trends · Amazon · Reddit · Manual)
+    ↓
+Relevance Filter + Deduplication
+    ↓
+Scoring Pipeline
+  ├─ Trend Score       (deterministic: 90-day Google Trends slope)
+  ├─ Transferability   (LLM: outdoor relevance + DACH gap)
+  ├─ Opportunity       (LLM: availability gap + saturation + brand access)
+  └─ Red-Flag          (LLM: supply chain + regulatory + brand concentration)
+    ↓
+Composite Score → Act Now / Watch ranked list
+    ↓
+Streamlit Dashboard (→ Lovable port)
+```
+
+See [`assets/architecture.png`](assets/architecture.png) for the pitch diagram
+and [`docs/data-contract.md`](docs/data-contract.md) for the full scoring JSON schema.
+
+---
+
 ## What's In This Repo
 
 - [`SUBMISSION.md`](SUBMISSION.md): fill this in before submitting your fork.

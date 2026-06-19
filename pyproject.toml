@@ -8,9 +8,24 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "matplotlib (>=3.11.0,<4.0.0)"
+    "matplotlib (>=3.11.0,<4.0.0)",
+    "streamlit (>=1.58.0,<2.0.0)",
+    "pytrends (>=4.9.2,<5.0.0)",
+    "praw (>=7)",
+    "beautifulsoup4 (>=4.15.0,<5.0.0)",
+    "requests (>=2.34.2,<3.0.0)",
+    "anthropic (>=0.111.0,<0.112.0)",
+    "numpy (>=2.4.6,<3.0.0)",
+    "pandas (>=3.0.3,<4.0.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)"
 ]
 
+
+[tool.poetry]
+packages = [{include = "zenline_radar"}]
+
+[tool.poetry.scripts]
+radar = "app:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

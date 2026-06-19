@@ -24,25 +24,25 @@ A candidate product, material, brand, or feature that the scoring pipeline has s
 Count of distinct source types that independently surface the same opportunity. Scale 0–5. Higher = more independent confirmation. Preserved during Deduplication so all contributing source types are counted.
 
 **Trend Score**
-Pillar score derived from three deterministic sub-dimensions: Growth, Noise Score, and Recency. Normalized 0–1.
+Pillar score with a single deterministic sub-dimension: Growth. Normalized 0–1.
 
 **Growth**
-Rate of increase of an opportunity's keyword over the last 90 days, measured via Google Trends for the comparison market(s). Normalized 0–10. Slope computed with `numpy.polyfit`.
-
-**Noise Score**
-Penalty dimension within Trend Score. Measures the ratio of multi-source signals vs. social-media-only signals. Scale 0–5; higher = less noisy. Low Recency (stale signals) also penalizes this score.
+Rate of increase of an opportunity's keyword over the last 90 days, measured via Google Trends for the comparison market(s). Normalized 0–10. Slope computed with `numpy.polyfit`. The only sub-dimension of Trend Score.
 
 **Trend Stage**
 Classification derived from the Trend Score sub-dimensions: `emerging`, `growing`, `mainstream`, or `declining`. Drives the Buy Recommendation shown in the output.
 
 **Swiss Transferability Score**
-Pillar score derived from three LLM-assessed sub-dimensions: Outdoor Relevance, Climate Fit, and DACH Availability Gap. The LLM receives the signal, the source market → target market pair, and the RetailerContext. Returns a score (1–5) and a one-sentence explanation per sub-dimension.
+Pillar score derived from two LLM-assessed sub-dimensions: Outdoor Relevance and DACH Availability Gap. The LLM receives the signal, the source market → target market pair, and the RetailerContext. Returns a score (1–5) and a one-sentence explanation per sub-dimension.
 
 **Opportunity Score**
 Pillar score derived from three LLM-assessed sub-dimensions: Availability Gap, Retail Saturation, and Brand Availability. Grounded in RetailerContext competitor URLs and niche.
 
+**Red-Flag Scoring**
+Fourth scoring pillar. LLM-assessed sub-dimensions: Supply Chain Risk, Regulatory Risk, Brand Concentration. Each scored 1–5 where 5 = highest risk. The pillar total is inverted in the Composite Score — high risk lowers the composite. Returns a one-sentence explanation ("Why to be cautious").
+
 **Composite Score**
-Equal-weight average of the three normalized pillar totals (Trend Score · Swiss Transferability Score · Opportunity Score).
+Weighted average of four normalized pillar totals: `avg(Trend · Transferability · Opportunity · (1 - Red-Flag))`. Red-Flag is inverted so high risk lowers the composite. Default weight is equal across all four pillars. Weights are configurable via UI sliders.
 
 **Urgency**
 Binary classification of each opportunity: `act_now` or `watch`. Set by the LLM during transferability scoring. Used to split the output into two sections.
