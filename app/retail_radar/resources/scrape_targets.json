@@ -1,0 +1,105 @@
+{
+  "_comment": "Real-world scrape targets, one entry per source in config/sources.json (names match exactly so collectors.py can join the two). base_url is a verified live domain. url_template/example fields use {keyword}/{geo}/{subreddit} placeholders -- search-path syntax on third-party sites changes without notice, so verify the template still resolves before relying on it live. method/auth tells you what's actually allowed without a login.",
+
+  "Google Trends": {
+    "source_type": "search",
+    "base_url": "https://trends.google.com",
+    "method": "pytrends (Python, unofficial wrapper around the public Trends API) -- no API key",
+    "url_template": "https://trends.google.com/trends/explore?q={keyword}&geo={geo}",
+    "example": "https://trends.google.com/trends/explore?q=gravel%20running&geo=CH",
+    "geo_codes": ["CH", "DE", "AT", "US", "SE", "JP", "KR", "GB"],
+    "notes": "Use pytrends for programmatic timeseries (build_payload + interest_over_time), not HTML scraping of the explore page. Rate-limits aggressively -- cache results, see ARCHITECTURE.md §11."
+  },
+
+  "Reddit": {
+    "source_type": "social",
+    "base_url": "https://www.reddit.com",
+    "method": "Public RSS feed, no auth, no API key",
+    "url_template": "https://www.reddit.com/r/{subreddit}/.rss",
+    "search_template": "https://www.reddit.com/r/{subreddit}/search.rss?q={keyword}&sort=new&restrict_sr=on",
+    "examples": [
+      "https://www.reddit.com/r/trailrunning/.rss",
+      "https://www.reddit.com/r/Ultralight/.rss",
+      "https://www.reddit.com/r/bikepacking/.rss",
+      "https://www.reddit.com/r/running/.rss",
+      "https://www.reddit.com/r/CampingandHiking/.rss"
+    ],
+    "notes": "Verified reachable (HTTP 403 with no User-Agent, 429 when polled repeatedly without a registered app -- both confirm the endpoint is live and rate-limited, not down). Set a descriptive User-Agent header and add delay/backoff between calls. See resources/fetch_reddit.py for a working fetcher."
+  },
+
+  "Pinterest": {
+    "source_type": "social",
+    "base_url": "https://www.pinterest.com",
+    "method": "No public free API for search; official Pinterest API requires app review",
+    "url_template": "https://www.pinterest.com/search/pins/?q={keyword}",
+    "notes": "Aesthetic/lifestyle signal only (credibility 0.35 in config/sources.json). HTML scraping is fragile and against their ToS for automated use -- for the hackathon, treat this as a manual-research source (a person browses and logs what they see into seed_signals.json) rather than an automated collector."
+  },
+
+  "Galaxus / Digitec": {
+    "source_type": "marketplace",
+    "base_url": "https://www.galaxus.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.galaxus.ch/en/search?q={keyword}",
+    "notes": "CH's largest marketplace -- real CHF prices and bestseller ranks. Verify /en/search?q= still matches their current site before automating; respect robots.txt and rate limits."
+  },
+
+  "Zalando": {
+    "source_type": "marketplace",
+    "base_url": "https://www.zalando.ch",
+    "method": "Site search, no public free API",
+    "url_template": "https://www.zalando.ch/catalog/?q={keyword}",
+    "notes": "DACH fashion/outdoor marketplace. Zalando does run a Partner/Affiliate Program with feed access -- worth checking instead of scraping HTML if pursued beyond the hackathon."
+  },
+
+  "Amazon Bestsellers": {
+    "source_type": "marketplace",
+    "base_url": "https://www.amazon.de",
+    "method": "Bestseller listing pages, no API key needed but ToS-restricted for automated scraping",
+    "url_template": "https://www.amazon.de/gp/bestsellers/sports/",
+    "notes": "DACH demand proxy. Amazon's ToS restricts automated scraping -- prefer manual spot-checks for the hackathon, or the official Product Advertising API (requires an Amazon Associates account) for anything longer-term."
+  },
+
+  "Ochsner Sport": {
+    "source_type": "competitor",
+    "base_url": "https://www.ochsnersport.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.ochsnersport.ch/search?q={keyword}",
+    "notes": "CH mass-market competitor -- the assortment-gap check for the broad/mainstream segment. Verify the search path live before automating."
+  },
+
+  "Bachli Bergsport": {
+    "source_type": "competitor",
+    "base_url": "https://www.baechli-bergsport.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.baechli-bergsport.ch/search?q={keyword}",
+    "notes": "Premium CH outdoor retailer -- core assortment-gap check (this is the killer-move comparison in ARCHITECTURE.md §1). Verify the search path live before automating."
+  },
+
+  "Transa": {
+    "source_type": "competitor",
+    "base_url": "https://www.transa.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.transa.ch/search?q={keyword}",
+    "notes": "Premium CH outdoor retailer -- core assortment-gap check, same role as Bachli. Verify the search path live before automating."
+  },
+
+  "BFS (Swiss Federal Statistical Office)": {
+    "source_type": "government",
+    "base_url": "https://www.bfs.admin.ch",
+    "method": "Topic browsing + STAT-TAB open data portal, no API key",
+    "url_template": "https://www.bfs.admin.ch/bfs/en/home.html",
+    "stat_tab": "https://www.pxweb.bfs.admin.ch/pxweb/en/",
+    "notes": "No single query-string search like the others -- browse Sport/Tourism/Mobility topic pages, or use the STAT-TAB tabular data explorer for structured exports. Strongest credibility in the registry (0.95) precisely because it's official government data, not a scrape."
+  },
+
+  "Gear Media / Newspaper": {
+    "source_type": "web",
+    "examples": [
+      {"name": "GearJunkie", "base_url": "https://gearjunkie.com"},
+      {"name": "RoadTrailRun", "base_url": "https://roadtrailrun.com"},
+      {"name": "Outdoor Magazin (DE)", "base_url": "https://www.outdoor-magazin.com"},
+      {"name": "ISPO News", "base_url": "https://www.ispo.com/en/news"}
+    ],
+    "notes": "Editorial coverage for material/brand stories and named-SKU reviews -- this is where the 'commercial proof' evidence (priced, reviewed, in-stock SKUs) usually comes from. Use each site's own search or RSS feed where available."
+  }
+}
