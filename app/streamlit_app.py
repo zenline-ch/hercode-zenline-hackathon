@@ -123,7 +123,7 @@ def render_setup():
     with st.form("context_form"):
         col1, col2 = st.columns(2)
         with col1:
-            target_market = st.text_input("Target market", value="CH")
+            target_market = st.text_input("Target market", value="CH", help="Accepts free text too -- 'Switzerland', 'Swiss', 'Germany', 'Austria', etc. are auto-normalised to CH/DE/AT.")
             niche = st.text_input("Niche / category", value="outdoor")
             persona = st.radio(
                 "Persona",

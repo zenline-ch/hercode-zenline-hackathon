@@ -1,6 +1,28 @@
 """Dataclasses matching the canonical contract in ARCHITECTURE.md / docs/data-contract.md."""
+import json
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Optional
+
+_ALIASES = json.loads((Path(__file__).resolve().parent / "config" / "market_aliases.json").read_text())
+_MARKET_ALIASES = _ALIASES["aliases"]
+_REGION_EXPANSIONS = _ALIASES["region_expansions"]
+
+
+def _normalise_market_value(market: str) -> str:
+    return _MARKET_ALIASES.get(market.strip().lower(), market.strip())
+
+
+def _normalise_market_list(markets: list[str]) -> list[str]:
+    out = []
+    for m in markets:
+        key = m.strip().upper()
+        if key in _REGION_EXPANSIONS:  # e.g. "DACH" -> ["CH", "DE", "AT"]
+            out.extend(_REGION_EXPANSIONS[key])
+        else:
+            out.append(_normalise_market_value(m))
+    seen = set()
+    return [m for m in out if not (m in seen or seen.add(m))]
 
 
 @dataclass
@@ -41,6 +63,12 @@ class RetailerContext:
         "coverage_gap": 0.20,
         "risk": 0.20,
     })
+
+    def __post_init__(self):
+        # Accept free-text market names (Switzerland, Swiss, Germany, Austria, DACH, ...)
+        # and normalise to the short codes used throughout the pipeline (CH, DE, AT, ...).
+        self.target_market = _normalise_market_value(self.target_market)
+        self.comparison_markets = _normalise_market_list(self.comparison_markets)
 
     def normalised_weights(self) -> dict:
         total = sum(self.scoring_weights.values()) or 1.0

@@ -1,14 +1,26 @@
 """Clean stage (ARCHITECTURE.md §4): validate, normalise text (keep umlauts),
 filter spam, sanity-check dates. Logs what it drops."""
+import json
 import re
 import unicodedata
 from dataclasses import replace
 from datetime import date
+from pathlib import Path
 
 from retail_radar.schema import Signal
 
 SPAM_MARKERS = ["buy now", "discount code", "affiliate", "sponsored", "[deleted]", "clearance"]
 _KEEP_CHARS = re.compile(r"[^\w\s\-äöüéèÄÖÜ]", re.UNICODE)
+
+_ALIASES_PATH = Path(__file__).resolve().parent.parent / "config" / "market_aliases.json"
+MARKET_ALIASES = json.loads(_ALIASES_PATH.read_text())["aliases"]
+
+
+def normalise_market(market: str) -> str:
+    """Map free-text market names (Switzerland, Swiss, Germany, Austria, ...) to
+    the short codes used everywhere downstream (CH, DE, AT, ...). Codes that are
+    already correct (or unrecognised) pass through unchanged."""
+    return MARKET_ALIASES.get(market.strip().lower(), market.strip())
 
 
 def _clean_text(t: str) -> str:
@@ -41,7 +53,7 @@ def clean(signals: list[Signal]) -> tuple[list[Signal], dict]:
             s,
             signal_name=_clean_text(s.signal_name),
             brand=s.brand.strip(),
-            market=s.market.strip(),
+            market=normalise_market(s.market),
         ))
     log = {"ingested": before, "cleaned": len(out), "dropped": before - len(out)}
     return out, log
