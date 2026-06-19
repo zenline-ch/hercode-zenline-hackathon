@@ -1,0 +1,15 @@
+{
+  "_comment": "Market alias normalization. Both signal.market values and RetailerContext.target_market/comparison_markets are normalized through this map before any matching (leadlag, coverage). DACH expands to a list since it's a region, not a single market code.",
+  "aliases": {
+    "switzerland": "CH", "swiss": "CH", "schweiz": "CH", "suisse": "CH",
+    "germany": "DE", "deutschland": "DE",
+    "austria": "AT", "oesterreich": "AT", "österreich": "AT",
+    "united states": "US", "usa": "US", "u.s.": "US", "u.s.a.": "US",
+    "united kingdom": "UK", "great britain": "UK", "britain": "UK",
+    "sweden": "Nordics", "norway": "Nordics", "denmark": "Nordics", "finland": "Nordics", "scandinavia": "Nordics",
+    "japan": "Japan", "korea": "Korea", "south korea": "Korea"
+  },
+  "region_expansions": {
+    "DACH": ["CH", "DE", "AT"]
+  }
+}
