@@ -37,12 +37,12 @@
       "urgency": "act_now",
       "buy_recommendation": "Test order \u00b7 small stock \u00b7 monitor closely",
       "persona_buy_action": "commercial_proof_only",
-      "composite_score": 0.761,
+      "composite_score": 0.735,
       "confidence": "high",
       "coverage_status": "absent",
       "scores": {
         "breadth": {
-          "total": 0.429,
+          "total": 0.301,
           "sources_used": [
             "Amazon Bestsellers",
             "Bachli Bergsport",
@@ -175,12 +175,12 @@
       "urgency": "act_now",
       "buy_recommendation": "Test order \u00b7 small stock \u00b7 monitor closely",
       "persona_buy_action": "commercial_proof_only",
-      "composite_score": 0.745,
+      "composite_score": 0.722,
       "confidence": "high",
       "coverage_status": "absent",
       "scores": {
         "breadth": {
-          "total": 0.373,
+          "total": 0.262,
           "sources_used": [
             "BFS (Swiss Federal Statistical Office)",
             "Google Trends",
@@ -284,18 +284,132 @@
       ]
     },
     {
+      "id": "run-culture-brands",
+      "name": "Run-Culture Brands (Satisfy / Norda / Ciele)",
+      "trend_stage": "emerging",
+      "urgency": "act_now",
+      "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
+      "persona_buy_action": "commercial_proof_only",
+      "composite_score": 0.59,
+      "confidence": "medium",
+      "coverage_status": "absent",
+      "scores": {
+        "breadth": {
+          "total": 0.201,
+          "sources_used": [
+            "Galaxus / Digitec",
+            "Ochsner Sport",
+            "Pinterest",
+            "Reddit"
+          ],
+          "count": 4
+        },
+        "momentum": {
+          "total": 0.0,
+          "slope_proxy": 0.0,
+          "note": "no search-type signal for this opportunity"
+        },
+        "transferability": {
+          "total": 0.75,
+          "raw_score": 4,
+          "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+          "urgency": "act_now",
+          "via": "heuristic_fallback",
+          "avg_quality": 0.5
+        },
+        "coverage_gap": {
+          "total": 1.0,
+          "matched_note": "Not stocked at Ochsner Sport as of observed_at",
+          "competitors_checked": [
+            "Ochsner Sport"
+          ]
+        },
+        "risk": {
+          "total": 1.0,
+          "flags_triggered": []
+        }
+      },
+      "explainability": {
+        "why_trending": "Momentum proxy 0.0/10 across 4 independent source type(s): Galaxus / Digitec, Ochsner Sport, Pinterest, Reddit.",
+        "why_fits_switzerland": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
+        "why_opportunity_now": "coverage_status=absent -- Not stocked at Ochsner Sport as of observed_at"
+      },
+      "lead_lag": {
+        "lead_market": null,
+        "lag_days": null,
+        "note": "No search-type signals with a usable date."
+      },
+      "monitor_triggers": [
+        "CH momentum declines 3 months straight",
+        "Competitor assortment now covers this category -- gap closed"
+      ],
+      "reversal_signals": [
+        "Initial sell-through < 20% after 4 weeks"
+      ],
+      "expected_window": "12-24 month first-mover advantage window",
+      "risk_flags": [],
+      "evidence_urls": [
+        "https://galaxus.ch/example-ciele",
+        "https://ochsnersport.ch",
+        "https://pinterest.com/example",
+        "https://reddit.com/r/running/comments/example"
+      ],
+      "signals": [
+        {
+          "source": "Galaxus / Digitec",
+          "source_type": "marketplace",
+          "market": "CH",
+          "keyword": "ciele cap",
+          "signal_score": 0.55,
+          "url": "https://galaxus.ch/example-ciele",
+          "observed_at": "2026-03-05",
+          "notes": "Very limited stock, low MOQ for retailers"
+        },
+        {
+          "source": "Reddit",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "ciele hat",
+          "signal_score": 0.5,
+          "url": "https://reddit.com/r/running/comments/example",
+          "observed_at": "2025-11-15",
+          "notes": "Recurring brand mentions, low MOQ entry point"
+        },
+        {
+          "source": "Pinterest",
+          "source_type": "social",
+          "market": "US",
+          "keyword": "satisfy running aesthetic",
+          "signal_score": 0.45,
+          "url": "https://pinterest.com/example",
+          "observed_at": "2025-10-01",
+          "notes": "Aesthetic/lifestyle signal only"
+        },
+        {
+          "source": "Ochsner Sport",
+          "source_type": "competitor",
+          "market": "CH",
+          "keyword": "satisfy norda ciele",
+          "signal_score": 0.0,
+          "url": "https://ochsnersport.ch",
+          "observed_at": "2026-06-01",
+          "notes": "Not stocked at Ochsner Sport as of observed_at"
+        }
+      ]
+    },
+    {
       "id": "bio-dyneema",
       "name": "Bio-Dyneema / A-TPU Foams",
       "trend_stage": "growing",
       "urgency": "act_now",
       "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
       "persona_buy_action": "commercial_proof_only",
-      "composite_score": 0.608,
+      "composite_score": 0.584,
       "confidence": "medium",
       "coverage_status": "partially_covered",
       "scores": {
         "breadth": {
-          "total": 0.41,
+          "total": 0.288,
           "sources_used": [
             "Galaxus / Digitec",
             "Gear Media / Newspaper",
@@ -405,132 +519,18 @@
       ]
     },
     {
-      "id": "run-culture-brands",
-      "name": "Run-Culture Brands (Satisfy / Norda / Ciele)",
-      "trend_stage": "emerging",
-      "urgency": "act_now",
-      "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
-      "persona_buy_action": "commercial_proof_only",
-      "composite_score": 0.607,
-      "confidence": "medium",
-      "coverage_status": "absent",
-      "scores": {
-        "breadth": {
-          "total": 0.286,
-          "sources_used": [
-            "Galaxus / Digitec",
-            "Ochsner Sport",
-            "Pinterest",
-            "Reddit"
-          ],
-          "count": 4
-        },
-        "momentum": {
-          "total": 0.0,
-          "slope_proxy": 0.0,
-          "note": "no search-type signal for this opportunity"
-        },
-        "transferability": {
-          "total": 0.75,
-          "raw_score": 4,
-          "reason": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
-          "urgency": "act_now",
-          "via": "heuristic_fallback",
-          "avg_quality": 0.5
-        },
-        "coverage_gap": {
-          "total": 1.0,
-          "matched_note": "Not stocked at Ochsner Sport as of observed_at",
-          "competitors_checked": [
-            "Ochsner Sport"
-          ]
-        },
-        "risk": {
-          "total": 1.0,
-          "flags_triggered": []
-        }
-      },
-      "explainability": {
-        "why_trending": "Momentum proxy 0.0/10 across 4 independent source type(s): Galaxus / Digitec, Ochsner Sport, Pinterest, Reddit.",
-        "why_fits_switzerland": "Heuristic fallback: multiple independent, strong sources plus a direct Swiss assortment check.",
-        "why_opportunity_now": "coverage_status=absent -- Not stocked at Ochsner Sport as of observed_at"
-      },
-      "lead_lag": {
-        "lead_market": null,
-        "lag_days": null,
-        "note": "No search-type signals with a usable date."
-      },
-      "monitor_triggers": [
-        "CH momentum declines 3 months straight",
-        "Competitor assortment now covers this category -- gap closed"
-      ],
-      "reversal_signals": [
-        "Initial sell-through < 20% after 4 weeks"
-      ],
-      "expected_window": "12-24 month first-mover advantage window",
-      "risk_flags": [],
-      "evidence_urls": [
-        "https://galaxus.ch/example-ciele",
-        "https://ochsnersport.ch",
-        "https://pinterest.com/example",
-        "https://reddit.com/r/running/comments/example"
-      ],
-      "signals": [
-        {
-          "source": "Galaxus / Digitec",
-          "source_type": "marketplace",
-          "market": "CH",
-          "keyword": "ciele cap",
-          "signal_score": 0.55,
-          "url": "https://galaxus.ch/example-ciele",
-          "observed_at": "2026-03-05",
-          "notes": "Very limited stock, low MOQ for retailers"
-        },
-        {
-          "source": "Reddit",
-          "source_type": "social",
-          "market": "US",
-          "keyword": "ciele hat",
-          "signal_score": 0.5,
-          "url": "https://reddit.com/r/running/comments/example",
-          "observed_at": "2025-11-15",
-          "notes": "Recurring brand mentions, low MOQ entry point"
-        },
-        {
-          "source": "Pinterest",
-          "source_type": "social",
-          "market": "US",
-          "keyword": "satisfy running aesthetic",
-          "signal_score": 0.45,
-          "url": "https://pinterest.com/example",
-          "observed_at": "2025-10-01",
-          "notes": "Aesthetic/lifestyle signal only"
-        },
-        {
-          "source": "Ochsner Sport",
-          "source_type": "competitor",
-          "market": "CH",
-          "keyword": "satisfy norda ciele",
-          "signal_score": 0.0,
-          "url": "https://ochsnersport.ch",
-          "observed_at": "2026-06-01",
-          "notes": "Not stocked at Ochsner Sport as of observed_at"
-        }
-      ]
-    },
-    {
       "id": "mycelium-biosynthetics",
       "name": "Mycelium / Bio-Synthetic Membranes",
       "trend_stage": "emerging",
       "urgency": "watch",
       "buy_recommendation": "Below Large Retailer (e.g. Bachli, Transa)'s confidence threshold -- monitor only, no buy",
       "persona_buy_action": "commercial_proof_only",
-      "composite_score": 0.389,
+      "composite_score": 0.363,
       "confidence": "low",
       "coverage_status": "not_relevant",
       "scores": {
         "breadth": {
-          "total": 0.447,
+          "total": 0.314,
           "sources_used": [
             "Galaxus / Digitec",
             "Gear Media / Newspaper",

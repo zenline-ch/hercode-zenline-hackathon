@@ -9,8 +9,10 @@ actually pull data from, by source:
 | Google Trends | No (use `pytrends`) | Confirmed reachable; rate-limits, cache results |
 | Reddit | No (public RSS) | **Working fetcher included** -- `fetch_reddit.py` |
 | Pinterest | No free API | Manual-research only, see note in JSON |
-| Galaxus / Digitec, Zalando, Amazon | No key, but ToS-restricted scraping | Site search, verify path before automating |
-| Ochsner Sport, Bachli Bergsport, Transa | No public API | Site search, verify path before automating |
+| Bachli Bergsport, Transa | No public API | Premium specialist gap check -- site search, verify path before automating |
+| Ochsner Sport, SportXX, Decathlon Switzerland | No public API | Mass-market gap check -- site search, verify path before automating |
+| Galaxus / Digitec, Zalando, Amazon | No key, but ToS-restricted scraping | Marketplace demand check -- site search, verify path before automating |
+| Brack.ch, Microspot, Manor, Globus | No public API | Generalist mega-mall / department store -- secondary/lifestyle-crossover signal, not a primary gap check |
 | BFS (Swiss Federal Statistical Office) | No key | Topic pages + STAT-TAB open data |
 | Gear media / newspapers | No key | Per-site search/RSS |
 

@@ -305,14 +305,15 @@ This is the exact shape the Lovable frontend reads — see [`diagram.md`](diagra
 
 **Layer A — global early-signal sources (trends appear first):** Claude/agent web search, Reddit RSS (no auth needed), gear media (GearJunkie, RoadTrailRun, Treeline), ISPO/OutDoor trade show coverage.
 
-**Layer B — Swiss/DACH sources (transferability + assortment-gap check):**
+**Layer B — Swiss/DACH sources (transferability + assortment-gap check), ranked by outdoor relevance:**
 - **Google Trends** (`geo=CH/DE/AT`, via `pytrends`, no API key) — search momentum, the cheapest credible transferability evidence available.
-- **Galaxus.ch / Digitec** — CH's largest marketplace: CHF prices + bestseller ranks.
-- **Bächli Bergsport, Transa** — premium assortment, the actual gap check.
-- **Ochsner Sport / SportXX** — mass-market coverage check.
-- **Amazon.de bestsellers** — DACH demand proxy.
+- **Bächli Bergsport, Transa** — premium specialist assortment, the actual gap check (credibility 0.9, highest among retail sources).
+- **Galaxus.ch / Digitec** — CH's largest marketplace: CHF prices + bestseller ranks (0.85).
+- **Ochsner Sport** — largest mainstream CH sports retailer (0.8); **SportXX** — Migros-owned, family/value-oriented chain (0.75); **Decathlon Switzerland** — budget-to-mid outdoor gear, deep CH footprint (0.7). Together these three form the mass-market coverage check, parallel to the premium one.
+- **Zalando.ch** — DACH fashion/outdoor marketplace (0.75); **Amazon.de bestsellers** — DACH demand proxy (0.7).
+- **Brack.ch** (0.6), **Microspot** (0.5), **Manor** (0.45), **Globus** (0.4) — generalist CH mega-malls and department stores. Not outdoor-specialized, so weighted lower; useful as secondary confirmation or for lifestyle/material-crossover signals (e.g. a designer collaboration showing up at Globus), not as the primary assortment-gap check.
 
-**The killer move, restated:** rising in Google Trends CH + absent from Bächli/Transa = quantified assortment gap = the highest-scoring opportunity, by construction of the formula in §6.
+**The killer move, restated:** rising in Google Trends CH + absent from Bächli/Transa = quantified assortment gap = the highest-scoring opportunity, by construction of the formula in §6. The generalist mega-malls exist in the registry so the system scales to categories beyond outdoor (e.g. cycling, home) without code changes — see `app/retail_radar/config/sources.json` and `app/retail_radar/resources/scrape_targets.json`.
 
 **`pytrends` caveat:** it rate-limits and occasionally breaks. Cache every successful pull and keep a `seed_signals.json` fallback so a flaky connection never kills the live demo.
 

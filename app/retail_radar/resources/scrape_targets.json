@@ -64,7 +64,23 @@
     "base_url": "https://www.ochsnersport.ch",
     "method": "Site search, no public API",
     "url_template": "https://www.ochsnersport.ch/search?q={keyword}",
-    "notes": "CH mass-market competitor -- the assortment-gap check for the broad/mainstream segment. Verify the search path live before automating."
+    "notes": "Largest mainstream CH sports retailer -- the assortment-gap check for the broad/mainstream segment. Verify the search path live before automating."
+  },
+
+  "SportXX": {
+    "source_type": "competitor",
+    "base_url": "https://www.sportxx.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.sportxx.ch/en/search/?q={keyword}",
+    "notes": "Migros-owned, family/value-oriented sports and outdoor chain. Verify the search path live before automating."
+  },
+
+  "Decathlon Switzerland": {
+    "source_type": "competitor",
+    "base_url": "https://www.decathlon.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.decathlon.ch/en/search?q={keyword}",
+    "notes": "Budget-to-mid-range outdoor/camping/sports gear, deep CH footprint. Verify the search path live before automating."
   },
 
   "Bachli Bergsport": {
@@ -81,6 +97,38 @@
     "method": "Site search, no public API",
     "url_template": "https://www.transa.ch/search?q={keyword}",
     "notes": "Premium CH outdoor retailer -- core assortment-gap check, same role as Bachli. Verify the search path live before automating."
+  },
+
+  "Brack.ch": {
+    "source_type": "marketplace",
+    "base_url": "https://www.brack.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.brack.ch/search?q={keyword}",
+    "notes": "Trusted, fast CH generalist online department store -- electronics/home/DIY with an outdoor-recreation category. Lower outdoor-specialization than Galaxus; useful as a secondary demand check."
+  },
+
+  "Microspot": {
+    "source_type": "marketplace",
+    "base_url": "https://www.microspot.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.microspot.ch/en/search?q={keyword}",
+    "notes": "Coop-owned, electronics-rooted online mall that's expanded into home/garden/leisure. Minor outdoor relevance -- treat as a weak confirmatory signal, not a primary check."
+  },
+
+  "Manor": {
+    "source_type": "marketplace",
+    "base_url": "https://www.manor.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.manor.ch/en/search?q={keyword}",
+    "notes": "CH's largest physical department store chain, online marketplace skews fashion/beauty/home with some everyday sports apparel. Useful for lifestyle-crossover signals (e.g. run-culture aesthetic), not technical gear."
+  },
+
+  "Globus": {
+    "source_type": "marketplace",
+    "base_url": "https://www.globus.ch",
+    "method": "Site search, no public API",
+    "url_template": "https://www.globus.ch/search?q={keyword}",
+    "notes": "Luxury CH department store. Minimal outdoor-specific assortment -- relevant mainly for premium material/brand-story crossovers (e.g. a designer collaboration), not a coverage-gap check."
   },
 
   "BFS (Swiss Federal Statistical Office)": {
