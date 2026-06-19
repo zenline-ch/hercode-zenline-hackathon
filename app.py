@@ -174,9 +174,8 @@ def page_setup():
             "api_key": api_key,
             "use_mock_llm": use_mock_llm,
             "source_config": {
-                "enable_google": enable_google,
-                "enable_amazon": enable_amazon,
-                "use_demo": use_demo,
+                "enable_search": enable_google,
+                "enable_marketplace": enable_amazon,
             },
             "page": "running",
         })
@@ -187,25 +186,13 @@ def page_setup():
 # Page 2 — Running
 # ---------------------------------------------------------------------------
 
-_SOURCE_LABELS = {
-    "manual":      ("📋", "Curated manual signals"),
-    "google":      ("📈", "Google Trends (90-day slope)"),
-    "amazon":      ("🛒", "Amazon Bestsellers"),
-}
-
-def _show_source_step(icon: str, label: str, status: str, count: int | None = None):
-    msg = f"{icon} **{label}**"
-    if count is not None:
-        msg += f" — {count} signal{'s' if count != 1 else ''} found"
-    if status == "running":
-        st.info(msg + " ...")
-    elif status == "done":
-        st.success(msg)
-    else:
-        st.markdown(f"<span style='color:#6b7280'>{msg}</span>", unsafe_allow_html=True)
-
-
 def page_running():
+    from zenline_radar.scraper import (
+        SEARCH_MIN_SCORE, MARKETPLACE_MIN_MATCHES,
+        manual_signals, search_signals, marketplace_signals,
+    )
+    import pandas as pd
+
     st.title("🔭 Zenline Retail Radar")
     ctx: RetailerContext = st.session_state["ctx"]
     api_key: str = st.session_state["api_key"]
@@ -213,54 +200,80 @@ def page_running():
     use_mock_llm: bool = st.session_state.get("use_mock_llm", True)
 
     st.markdown(f"Analysing **{ctx.niche}** opportunities for **{ctx.target_market}**")
-    st.markdown("---")
 
-    # --- Signal collection phase ---
-    st.markdown("#### Step 1 · Collecting signals")
-    step_manual  = st.empty()
-    step_google  = st.empty()
-    step_amazon  = st.empty()
+    # --- Detection rules legend ---
+    st.markdown("#### Detection rules")
+    r1, r2, r3 = st.columns(3)
+    r1.info(f"**📋 Curated**\nExpert-vetted signals\nAlways included")
+    r2.info(f"**📈 Search (Google Trends)**\n90-day slope × 10\nDetected if score ≥ {SEARCH_MIN_SCORE}")
+    r3.info(f"**🛒 Marketplace (Amazon)**\nKeyword in top-50 titles\nDetected if matches ≥ {MARKETPLACE_MIN_MATCHES}")
 
+    st.divider()
+
+    # --- Live signal table ---
+    st.markdown("#### Step 1 · Signal detection")
+    table_placeholder = st.empty()
     all_signals: list[dict] = []
 
-    # Manual signals
-    with step_manual.container():
-        _show_source_step("📋", "Curated manual signals", "running")
-    from zenline_radar.scraper import get_manual_signals
-    manual = get_manual_signals(ctx)
-    all_signals.extend(manual)
-    with step_manual.container():
-        _show_source_step("📋", "Curated manual signals", "done", len(manual))
+    def _refresh_table(signals: list[dict], source_running: str | None = None):
+        rows = []
+        for s in signals:
+            rows.append({
+                "Keyword": s["signal_name"],
+                "Source": s["source"],
+                "Market": s["market"],
+                "Score": f"{s['signal_score']:.1f} / 10",
+                "Confidence": s["confidence"],
+            })
+        if source_running:
+            rows.append({
+                "Keyword": "...",
+                "Source": source_running,
+                "Market": "—",
+                "Score": "scanning",
+                "Confidence": "—",
+            })
+        if rows:
+            table_placeholder.dataframe(
+                pd.DataFrame(rows),
+                use_container_width=True,
+                hide_index=True,
+            )
 
-    # Google Trends
-    if src_cfg.get("enable_google"):
-        with step_google.container():
-            _show_source_step("📈", "Google Trends (90-day slope)", "running")
-        from zenline_radar.scraper import scrape_google_trends
-        g_signals = scrape_google_trends(ctx, ctx.category_keywords)
-        all_signals.extend(g_signals)
-        with step_google.container():
-            _show_source_step("📈", "Google Trends (90-day slope)", "done", len(g_signals))
+    # Curated
+    curated = manual_signals(ctx)
+    all_signals.extend(curated)
+    _refresh_table(all_signals)
 
-    # Amazon
-    if src_cfg.get("enable_amazon"):
-        with step_amazon.container():
-            _show_source_step("🛒", "Amazon Bestsellers", "running")
-        from zenline_radar.scraper import scrape_amazon_bestsellers
-        a_signals = scrape_amazon_bestsellers(ctx, ctx.category_keywords)
-        all_signals.extend(a_signals)
-        with step_amazon.container():
-            _show_source_step("🛒", "Amazon Bestsellers", "done", len(a_signals))
+    # Search
+    if src_cfg.get("enable_search"):
+        _refresh_table(all_signals, source_running="Google Trends")
+        found = search_signals(ctx)
+        all_signals.extend(found)
+        _refresh_table(all_signals)
 
-    total_signals = len(all_signals)
-    st.markdown(f"**{total_signals} raw signals collected**")
+    # Marketplace
+    if src_cfg.get("enable_marketplace"):
+        _refresh_table(all_signals, source_running="Amazon Bestsellers")
+        found = marketplace_signals(ctx)
+        all_signals.extend(found)
+        _refresh_table(all_signals)
 
-    # --- Filter phase ---
-    st.markdown("---")
-    st.markdown("#### Step 2 · Filtering & deduplicating")
+    st.success(f"**{len(all_signals)} signals detected** across {len({s['source'] for s in all_signals})} source(s)")
+
+    # --- Filter + dedup ---
+    st.divider()
+    st.markdown("#### Step 2 · Filter & deduplicate")
     with st.spinner("Matching signals to your niche and markets..."):
         opportunities = run_filter_pipeline(all_signals, ctx)
-    st.success(f"{len(opportunities)} unique opportunities identified")
+
+    opp_rows = [{"Opportunity": o["name"], "Markets": ", ".join(o["markets"]),
+                 "Signal breadth": o["signal_breadth"],
+                 "Best score": f"{o['best_signal_score']:.1f} / 10",
+                 "Confidence": o["confidence"]} for o in opportunities]
+    if opp_rows:
+        st.dataframe(pd.DataFrame(opp_rows), use_container_width=True, hide_index=True)
+    st.success(f"**{len(opportunities)} unique opportunities** identified")
 
     if not opportunities:
         st.warning("No opportunities found. Try broadening your keywords.")
@@ -269,13 +282,13 @@ def page_running():
             st.rerun()
         return
 
-    # --- Scoring phase ---
-    st.markdown("---")
-    st.markdown("#### Step 3 · Scoring with AI")
+    # --- Scoring ---
+    st.divider()
+    st.markdown("#### Step 3 · AI scoring")
 
     if use_mock_llm:
         with st.spinner("Loading cached demo scores..."):
-            time.sleep(0.8)  # feels more real
+            time.sleep(0.6)
             with open(_MOCK_PATH) as f:
                 results = json.load(f)
         st.success(f"Loaded {len(results)} pre-scored opportunities (demo mode)")
@@ -297,6 +310,7 @@ def page_running():
     st.session_state["results"] = results
     st.session_state["page"] = "results"
     st.rerun()
+
 
 
 # ---------------------------------------------------------------------------
