@@ -1,5 +1,9 @@
 # Submission
 
+> **IMPORTANT FOR REVIEWERS: all of this team's work is on the `feature/giulia` branch, not
+> `main`. Please review https://github.com/angelaschereraiza/hercode-zenline-hackathon/tree/feature/giulia
+> -- the default branch (`main`) does not contain the submission.**
+
 Complete this file in your fork before submitting.
 
 ## Team

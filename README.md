@@ -1,5 +1,9 @@
 # HerCode Zenline Hackathon
 
+> **Submission note: this team's work lives on the `feature/giulia` branch.** See
+> [`SUBMISSION.md`](SUBMISSION.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), and
+> [`diagram.md`](diagram.md) on that branch -- `main` is just the unmodified challenge template.
+
 Build the retail radar that spots the next outdoor opportunity before it becomes obvious.
 
 ## Challenge
