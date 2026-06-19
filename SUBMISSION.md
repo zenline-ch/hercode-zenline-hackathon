@@ -61,8 +61,12 @@ python3 -m retail_radar.pipeline.run_pipeline
 
 ## Outputs
 
-- Dashboard or UI: Streamlit app (`app/streamlit_app.py`) -- RetailerContext wizard, AI chat,
-  and an Act Now / Watch opportunity dashboard with full evidence trail per card
+- Dashboard or UI: two frontends. (1) `app/streamlit_app.py` -- a working Streamlit app
+  (RetailerContext wizard, AI chat, Act Now / Watch dashboard) wired to the **real backend**,
+  runnable today. (2) `frontend/` -- a Lovable-built React/TanStack/shadcn chat-wizard + dashboard
+  with the intended production UX, currently on mock data with no backend call. Both converged on
+  the same RetailerContext -> Act Now/Watch -> explainability shape independently; field-by-field
+  integration mapping is in `frontend/INTEGRATION.md`.
 - Report: `app/retail_radar/data/recommendations.json` (one record per opportunity, matching the
   schema in `ARCHITECTURE.md` §10)
 - Structured data: `app/retail_radar/data/signals.csv` (data-contract Signal rows), downloadable
