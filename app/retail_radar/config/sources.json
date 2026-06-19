@@ -1,0 +1,16 @@
+{
+  "_comment": "Source credibility registry. credibility is 0-1 and drives the Breadth pillar in scorer.py (ARCHITECTURE.md §6). Edit/add rows here — no code change needed elsewhere.",
+  "sources": [
+    {"name": "Google Trends", "source_type": "search", "credibility": 0.95, "notes": "Geo-specific quantitative search momentum, hard data"},
+    {"name": "BFS (Swiss Federal Statistical Office)", "source_type": "government", "credibility": 0.95, "notes": "Official Swiss government statistics"},
+    {"name": "Bachli Bergsport", "source_type": "competitor", "credibility": 0.9, "notes": "Premium CH outdoor retailer, core assortment-gap check"},
+    {"name": "Transa", "source_type": "competitor", "credibility": 0.9, "notes": "Premium CH outdoor retailer, core assortment-gap check"},
+    {"name": "Ochsner Sport", "source_type": "competitor", "credibility": 0.8, "notes": "Mass-market CH competitor assortment"},
+    {"name": "Galaxus / Digitec", "source_type": "marketplace", "credibility": 0.85, "notes": "CH's largest marketplace, real CHF prices and ranks"},
+    {"name": "Zalando", "source_type": "marketplace", "credibility": 0.75, "notes": "DACH fashion/outdoor marketplace, listing + price data"},
+    {"name": "Amazon Bestsellers", "source_type": "marketplace", "credibility": 0.7, "notes": "DACH demand proxy, less CH-specific"},
+    {"name": "Gear Media / Newspaper", "source_type": "web", "credibility": 0.6, "notes": "Editorial coverage (GearJunkie, RoadTrailRun, outdoor-magazin.de), moderate credibility"},
+    {"name": "Pinterest", "source_type": "social", "credibility": 0.35, "notes": "Aesthetic/lifestyle signal, weak commercial evidence"},
+    {"name": "Reddit", "source_type": "social", "credibility": 0.3, "notes": "Community buzz, weakest signal, easiest to game"}
+  ]
+}
