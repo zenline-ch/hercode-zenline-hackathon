@@ -64,7 +64,6 @@ The scoring pipeline produces one JSON object per opportunity. This is the shape
     "trend": {
       "total": 0.76,
       "growth": 8.2,
-      "geographic_spread": 4,
       "noise_score": 4.1,
       "recency_days": 12
     },
@@ -141,7 +140,6 @@ The scoring pipeline produces one JSON object per opportunity. This is the shape
 | `urgency` | `act_now` · `watch` | LLM (transferability step) | Used to split output into two sections |
 | `composite_score` | 0–1 | Weighted avg of three pillar totals | Default equal weight, configurable via UI |
 | `trend.growth` | 0–10 | Google Trends 90-day slope | Higher = faster rising |
-| `trend.geographic_spread` | 0–5 | Count of distinct markets with signal | Higher = more markets confirm the trend |
 | `trend.noise_score` | 0–5 | Ratio of multi-source vs social-only signals | Higher = less noisy |
 | `trend.recency_days` | integer | Avg days since signals were observed | Lower = fresher evidence |
 | `transferability.*` | 1–5 | LLM-scored | 5 = strong fit for Switzerland / DACH |

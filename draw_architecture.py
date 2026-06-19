@@ -77,7 +77,6 @@ qa = [
     ("Demographics",        "Gender · Age range"),
     ("Competitor URLs",     "transa.ch · ochsner-sport.ch"),
     ("Risk Factors",        "Supply chain · Regulatory\nSeasonal · Single-supplier"),
-    ("Score Weights",       "Sliders (default: equal)"),
 ]
 slot_w = 21.2 / len(qa)
 for i, (k, v) in enumerate(qa):
@@ -131,7 +130,7 @@ arr(11, 22.35, 11, 21.95)
 # 4  SCORING LAYER
 # ═══════════════════════════════════════════════════════════════════════════
 section_header(0.4, 13.1, 21.2, 8.6, PURPLE, "④", "SCORING LAYER",
-               "Three pillars · deterministic + LLM-hybrid · configurable weights")
+               "Three pillars · deterministic + LLM-hybrid · equal-weight composite")
 
 PILLAR_Y_TOP = 20.85
 PILLAR_H     = 5.2
@@ -143,10 +142,9 @@ txt(3.9, PILLAR_Y_TOP - 0.28, "TREND SCORE", sz=9.5, c=PURPLE, w="bold")
 txt(3.9, PILLAR_Y_TOP - 0.58, "Deterministic", sz=7, c=MUTED)
 
 dims_a = [
-    ("Growth",           "Google Trends 90d slope · normalized 0-10",          PURPLE),
-    ("Geographic Spread","Count distinct markets with signal · 0-5",            PURPLE),
-    ("Noise Score",      "Penalty: % signals that are social-media-only · 0-5", RED),
-    ("Low Recency",      "Penalty: avg signal age in days · staleness score",   RED),
+    ("Growth",      "Google Trends 90d slope · normalized 0-10",          PURPLE),
+    ("Noise Score", "Penalty: % signals that are social-media-only · 0-5", RED),
+    ("Low Recency", "Penalty: avg signal age in days · staleness score",   RED),
 ]
 for j, (name, detail, col) in enumerate(dims_a):
     subdim(0.65, PILLAR_Y_TOP - 1.1 - j * 0.95, name, detail, col)
@@ -208,8 +206,7 @@ for k, badge in enumerate(["Supply Chain", "Regulatory", "Seasonal", "Single Sup
 # ── COMPOSITE SCORE ──────────────────────────────────────────────────────────
 COMP_Y = 13.18
 box(0.55, COMP_Y, 21.1, 0.62, fc="#181828", ec=BLUE, lw=0.9, r=0.2)
-txt(11,   COMP_Y + 0.35, "COMPOSITE SCORE  =  weighted avg ( Trend Score  ·  Swiss Transferability  ·  Opportunity Score )    +   BUY RECOMMENDATION  from Trend Stage", sz=8.5, c=WHITE, w="bold")
-txt(11,   COMP_Y + 0.12, "Default: equal weights  ·  configurable via UI sliders in sidebar", sz=7.5, c=MUTED)
+txt(11,   COMP_Y + 0.35, "COMPOSITE SCORE  =  equal-weight avg ( Trend Score  ·  Swiss Transferability  ·  Opportunity Score )    +   BUY RECOMMENDATION  from Trend Stage", sz=8.5, c=WHITE, w="bold")
 
 arr(11, 13.1, 11, 12.7)
 
@@ -287,7 +284,6 @@ reuse = [
     ("Niche / Category",    "Fashion · Electronics · Food"),
     ("Competitor URLs",     "Any retailer"),
     ("Risk Factors",        "Domain-specific"),
-    ("Score Weights",       "Per use case"),
 ]
 cw = 21.2 / len(reuse)
 for i, (k, v) in enumerate(reuse):

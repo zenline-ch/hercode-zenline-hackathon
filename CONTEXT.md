@@ -3,7 +3,7 @@
 ## Glossary
 
 **RetailerContext**
-The structured configuration object produced by the Q&A entrypoint. Captures: target market, comparison markets, niche/category, demographic filters (gender, age range), competitor URLs, and scoring weights. All downstream modules receive a `RetailerContext` — nothing is hardcoded to Switzerland or outdoor retail.
+The structured configuration object produced by the Q&A entrypoint. Captures: target market, comparison markets, niche/category, demographic filters (gender, age range), and competitor URLs. All downstream modules receive a `RetailerContext` — nothing is hardcoded to Switzerland or outdoor retail.
 
 **Comparison Market**
 A market the user identifies as a credible signal source for the target market. Example: Sweden and Canada for a Swiss outdoor retailer. Signals are scraped *from* comparison markets. Transferability scoring reasons over the specific pair: comparison market → target market.
@@ -21,16 +21,28 @@ The category of a signal's origin: `search`, `social`, `marketplace`, `web`, `ma
 A candidate product, material, brand, or feature that the scoring pipeline has surfaced and ranked. An opportunity is backed by one or more signals across one or more source types.
 
 **Signal Breadth**
-Count of distinct source types that independently surface the same opportunity. Scale 0–5. Higher = more independent confirmation.
+Count of distinct source types that independently surface the same opportunity. Scale 0–5. Higher = more independent confirmation. Preserved during Deduplication so all contributing source types are counted.
 
-**Momentum**
-Rate of growth of an opportunity's keyword over the last 90 days, measured via Google Trends for the comparison market(s). Normalized 0–10. Slope computed with `numpy.polyfit`.
+**Trend Score**
+Pillar score derived from three deterministic sub-dimensions: Growth, Noise Score, and Recency. Normalized 0–1.
 
-**Transferability**
-LLM-assessed likelihood that an opportunity observed in a comparison market will succeed in the target market. Scored 1–5 with a one-sentence rationale and an urgency flag (`act_now` or `watch`). The LLM receives the signal, the source market, the target market, and relevant RetailerContext fields as structured input.
+**Growth**
+Rate of increase of an opportunity's keyword over the last 90 days, measured via Google Trends for the comparison market(s). Normalized 0–10. Slope computed with `numpy.polyfit`.
+
+**Noise Score**
+Penalty dimension within Trend Score. Measures the ratio of multi-source signals vs. social-media-only signals. Scale 0–5; higher = less noisy. Low Recency (stale signals) also penalizes this score.
+
+**Trend Stage**
+Classification derived from the Trend Score sub-dimensions: `emerging`, `growing`, `mainstream`, or `declining`. Drives the Buy Recommendation shown in the output.
+
+**Swiss Transferability Score**
+Pillar score derived from three LLM-assessed sub-dimensions: Outdoor Relevance, Climate Fit, and DACH Availability Gap. The LLM receives the signal, the source market → target market pair, and the RetailerContext. Returns a score (1–5) and a one-sentence explanation per sub-dimension.
+
+**Opportunity Score**
+Pillar score derived from three LLM-assessed sub-dimensions: Availability Gap, Retail Saturation, and Brand Availability. Grounded in RetailerContext competitor URLs and niche.
 
 **Composite Score**
-Weighted average of normalized Breadth (÷5), Momentum (÷10), and Transferability ((score−1)÷4). Default weight is equal across all three. Weights are configurable via UI sliders.
+Equal-weight average of the three normalized pillar totals (Trend Score · Swiss Transferability Score · Opportunity Score).
 
 **Urgency**
 Binary classification of each opportunity: `act_now` or `watch`. Set by the LLM during transferability scoring. Used to split the output into two sections.
