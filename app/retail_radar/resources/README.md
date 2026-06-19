@@ -51,3 +51,12 @@ restrict automated scraping in their Terms of Service. For a hackathon demo, pre
   Zalando Partner Program),
 
 over building an unauthenticated scraper against a ToS that disallows it.
+
+## Next step for news/gear-media collection (not implemented -- recommended for after the hackathon)
+
+For the "Gear Media / Newspaper" source, `newspaper4k` (`AndyTheFactory/newspaper4k` on GitHub) is
+the most reasonable pick: actively maintained continuation of Newspaper3k, Python-native, CLI +
+API, multilanguage with auto-detection (useful for German/Korean/US coverage), and built-in
+keyword/summary extraction. Tradeoffs: several system dependencies to install (libxml2, libxslt,
+Pillow), and large sources can be slow or get IP-blocked. Not wired in here -- evaluate and
+integrate post-submission, same pattern as `fetch_reddit.py`.
