@@ -67,7 +67,13 @@ Return ONLY a JSON object with this exact structure (no markdown, no prose):
   "urgency": "<act_now or watch>",
   "why_trending": "<one sentence on why this is gaining momentum now>",
   "why_fits_switzerland": "<one sentence on cultural/climate/commercial fit for {target_market}>",
-  "why_opportunity_now": "<one sentence on the specific window of opportunity>"
+  "why_opportunity_now": "<one sentence on the specific window of opportunity>",
+  "explainability_sources": {{
+    "why_trending": [{{"label": "<short source name>", "url": "<evidence URL>"}}],
+    "why_fits_switzerland": [{{"label": "<short source name>", "url": "<evidence URL>"}}],
+    "why_opportunity_now": [{{"label": "<short source name>", "url": "<evidence URL>"}}],
+    "why_to_be_cautious": [{{"label": "<short source name>", "url": "<evidence URL>"}}]
+  }}
 }}
 
 Scoring guide:
@@ -193,6 +199,7 @@ def _merge_llm_result(opportunity: dict, parsed: dict) -> dict:
         "why_opportunity_now": parsed.get("why_opportunity_now", ""),
         "why_to_be_cautious": rf.get("explanation", ""),
     }
+    result["explainability_sources"] = parsed.get("explainability_sources", {})
 
     return result
 

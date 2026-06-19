@@ -369,32 +369,31 @@ def _render_opportunity(opp: dict):
             rf = scores.get("red_flag", {})
             _mini_bar(f"Red-Flag risk  {rf.get('total', 0):.0%}  (lower is better)", rf.get("total", 0), color="#ef4444")
 
-        # Right: why sentences
+        # Right: why sentences + inline sources
         with col_why:
-            why_trending = expl.get("why_trending", "")
-            why_fits     = expl.get("why_fits_switzerland", "")
-            why_now      = expl.get("why_opportunity_now", "")
-            why_caution  = expl.get("why_to_be_cautious", "")
+            src = opp.get("explainability_sources", {})
 
-            if why_trending:
-                st.markdown(f"**Why it's trending** — {why_trending}")
-            if why_fits:
-                st.markdown(f"**Why it fits Switzerland** — {why_fits}")
-            if why_now:
-                st.markdown(f"**Why act now** — {why_now}")
-            if why_caution:
+            def _why_row(label: str, text: str, key: str, color: str = "#e5e7eb"):
+                if not text:
+                    return
+                sources = src.get(key, [])
+                source_links = "  ".join(
+                    f'<a href="{s["url"]}" target="_blank" style="font-size:0.72rem;color:#60a5fa;text-decoration:none;border:1px solid #374151;padding:1px 6px;border-radius:4px;">{s["label"]}</a>'
+                    for s in sources
+                )
                 st.markdown(
-                    f"<span style='color:#fbbf24'>⚠ <b>Caution</b></span> — {why_caution}",
+                    f'<div style="margin-bottom:0.7rem;">'
+                    f'<span style="font-weight:700;color:{color};">{label}</span>'
+                    f'<span style="color:#d1d5db;"> — {text}</span>'
+                    f'{"<br><span style=margin-top:4px;display:inline-block>" + source_links + "</span>" if source_links else ""}'
+                    f'</div>',
                     unsafe_allow_html=True,
                 )
 
-        # Evidence URLs (compact)
-        urls = opp.get("evidence_urls", [])
-        if urls:
-            with st.expander("Evidence sources", expanded=False):
-                for url in urls[:5]:
-                    display = url[:70] + "..." if len(url) > 70 else url
-                    st.markdown(f"- [{display}]({url})")
+            _why_row("Why it's trending", expl.get("why_trending", ""), "why_trending")
+            _why_row("Why it fits Switzerland", expl.get("why_fits_switzerland", ""), "why_fits_switzerland")
+            _why_row("Why act now", expl.get("why_opportunity_now", ""), "why_opportunity_now")
+            _why_row("⚠ Caution", expl.get("why_to_be_cautious", ""), "why_to_be_cautious", color="#fbbf24")
 
 
 def page_results():

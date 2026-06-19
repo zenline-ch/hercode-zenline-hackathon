@@ -17,7 +17,8 @@ dependencies = [
     "anthropic (>=0.111.0,<0.112.0)",
     "numpy (>=2.4.6,<3.0.0)",
     "pandas (>=3.0.3,<4.0.0)",
-    "python-dotenv (>=1.2.2,<2.0.0)"
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "fastapi[standard] (>=0.137.2,<0.138.0)"
 ]
 
 
